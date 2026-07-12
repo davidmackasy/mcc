@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<title>Drive-Thru & Exterior Detailing — Master Commercial Cleaning</title>
+<meta name="description" content="Parking lots, drive-thru lanes, entrances and dumpster pads kept clean for restaurant and retail properties. Serving Winnipeg and Selkirk, Manitoba.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/whatsapp-widget.css">
+<style>
+/* ==========================================================================
+   MASTER COMMERCIAL CLEANING — brand tokens
+   Palette pulled from logo: lime green, royal blue, and black.
+   =========================================================================== */
+
+:root {
+  /* color */
+  --ink: #0a0a0a;        /* logo black — headers, nav, footer */
+  --ink-soft: #1a1a1a;   /* dark charcoal for gradients/hover */
+  --paper: #f6f7f4;      /* neutral page background */
+  --panel: #eef1ea;      /* card / section panel background */
+  --panel-deep: #e2e8dc; /* slightly deeper panel */
+  --slate: #4a5248;      /* secondary text */
+  --slate-soft: #6b7368;
+  --line: #d4dbd0;       /* hairline borders */
+  --teal: #8cc63f;       /* primary lime green from logo */
+  --teal-deep: #5a9230;
+  --blue: #2b5cb8;       /* royal blue from logo CC monogram */
+  --white: #ffffff;
+
+  /* type */
+  --font-display: "Space Grotesk", "Arial Narrow", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  /* layout */
+  --max: 1180px;
+  --pad: clamp(20px, 4vw, 64px);
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.08;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); }
+h2 { font-size: clamp(1.8rem, 3.4vw, 2.75rem); }
+h3 { font-size: 1.3rem; }
+
+p { margin: 0 0 1em; color: var(--slate); }
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+}
+
+/* eyebrow / mono label -------------------------------------------------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--teal);
+  display: inline-block;
+}
+
+/* buttons ----------------------------------------------------------------*/
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color .15s ease;
+}
+.btn-primary {
+  background: var(--teal);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--teal-deep); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--white); }
+.btn-on-dark {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.4);
+}
+.btn-on-dark:hover { background: var(--white); color: var(--ink); }
+.btn svg { width: 14px; height: 14px; }
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(246,247,244,0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+}
+.brand-logo {
+  height: 58px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.main-nav { display: flex; align-items: center; gap: 34px; }
+.main-nav ul { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
+.main-nav > ul > li { display: flex; align-items: center; }
+.main-nav a {
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s ease, color .15s ease;
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] {
+  border-bottom-color: var(--teal);
+  color: var(--teal-deep);
+}
+
+/* services dropdown ------------------------------------------------------*/
+.has-dropdown { position: relative; display: flex; align-items: center; gap: 2px; }
+.dropdown-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+.dropdown-toggle svg { width: 12px; height: 12px; transition: transform .15s ease; }
+.has-dropdown.dropdown-open .dropdown-toggle svg,
+.has-dropdown:hover .dropdown-toggle svg { transform: rotate(180deg); }
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 16px);
+  left: -18px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  min-width: 300px;
+  padding: 8px;
+  box-shadow: 0 16px 32px rgba(15,31,51,0.14);
+  z-index: 60;
+}
+.dropdown a {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border-bottom: none !important;
+  color: var(--ink);
+}
+.dropdown a span.sub {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--slate-soft);
+  margin-top: 2px;
+}
+.dropdown a:hover { background: var(--panel); color: var(--teal-deep); }
+.has-dropdown:hover .dropdown,
+.has-dropdown.dropdown-open .dropdown { display: block; }
+
+@media (max-width: 880px) {
+  .has-dropdown { flex-direction: column; align-items: flex-start; width: 100%; }
+  .dropdown {
+    position: static;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 6px 14px;
+    min-width: 0;
+    width: 100%;
+  }
+}
+.header-call {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+.header-call svg { width: 15px; height: 15px; color: var(--blue); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.nav-toggle svg { width: 20px; height: 20px; }
+
+@media (max-width: 880px) {
+  .main-nav ul { display: none; }
+  .header-call span.txt { display: none; }
+  .nav-toggle { display: flex; }
+  .site-header.nav-open .main-nav ul {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 84px; left: 0; right: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 10px var(--pad) 24px;
+    gap: 4px;
+  }
+  .site-header.nav-open .main-nav a { display: block; padding: 12px 0; border-bottom: 1px solid var(--line); }
+}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--white);
+  padding: 90px 0 70px;
+}
+.hero::after {
+  /* squeegee sweep — the signature mark */
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 140%;
+  background: linear-gradient(115deg, transparent 42%, rgba(140,198,63,0.22) 46%, rgba(140,198,63,0.05) 52%, transparent 58%);
+  pointer-events: none;
+}
+.hero .wrap { position: relative; z-index: 2; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: end;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 22px;
+  display: block;
+}
+.hero h1 { color: var(--white); max-width: 13ch; }
+.hero-lede { color: rgba(255,255,255,0.72); font-size: 1.12rem; max-width: 46ch; margin-bottom: 34px; }
+.hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+.hero-ticket {
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  padding: 26px 26px 22px;
+  font-family: var(--font-mono);
+}
+.hero-ticket .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.16);
+  font-size: 0.84rem;
+}
+.hero-ticket .row:last-child { border-bottom: none; }
+.hero-ticket .row span:first-child { color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.72rem; }
+.hero-ticket .row span:last-child { color: var(--white); text-align: right; }
+
+/* trust strip ------------------------------------------------------------*/
+.trust-strip {
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+.trust-strip .wrap {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-top: 22px;
+  padding-bottom: 22px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--slate);
+  letter-spacing: 0.03em;
+}
+.trust-strip .item { display: flex; align-items: center; gap: 9px; }
+.trust-strip .item svg { width: 16px; height: 16px; color: var(--teal-deep); flex-shrink: 0; }
+
+/* ==========================================================================
+   SECTION SCAFFOLDING
+   ========================================================================== */
+section { padding: 88px 0; }
+.section-tight { padding: 60px 0; }
+.section-head { max-width: 640px; margin-bottom: 50px; }
+.section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+.on-panel { background: var(--panel); }
+.on-ink { background: var(--ink); color: var(--white); }
+.on-ink p { color: rgba(255,255,255,0.68); }
+.on-ink .eyebrow { color: var(--teal); }
+.on-ink .eyebrow::before { background: var(--teal); }
+
+/* ==========================================================================
+   SERVICE TICKET CARDS (signature component)
+   ========================================================================== */
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.ticket {
+  background: var(--paper);
+  padding: 30px 28px 28px;
+  position: relative;
+  transition: background .15s ease;
+}
+.ticket:hover { background: var(--white); }
+.ticket .icon {
+  width: 100%;
+  height: 112px;
+  border-radius: var(--radius);
+  background: var(--panel-deep);
+  display: block;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.ticket .icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ticket h3 { margin-bottom: 10px; font-size: 1.18rem; }
+.ticket p { font-size: 0.92rem; margin-bottom: 0; }
+.ticket-more {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ticket-more svg { width: 12px; height: 12px; transition: transform .15s ease; }
+.ticket:hover .ticket-more svg { transform: translateX(3px); }
+
+@media (max-width: 900px) {
+  .ticket-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .ticket-grid { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: 1fr; }
+}
+
+/* stat strip ---------------------------------------------------------- */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stat-strip .stat {
+  padding: 30px 24px;
+  border-left: 1px solid var(--line);
+}
+.stat-strip .stat:first-child { border-left: none; }
+.stat .figure {
+  font-family: var(--font-mono);
+  font-size: 2.1rem;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 6px;
+}
+.stat .label {
+  font-size: 0.82rem;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 760px) {
+  .stat-strip { grid-template-columns: repeat(2, 1fr); }
+  .stat-strip .stat:nth-child(3) { border-left: none; }
+}
+
+/* two column feature ------------------------------------------------------*/
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.split.reverse .split-media { order: 2; }
+.split-media {
+  aspect-ratio: 4/3;
+  background: var(--panel-deep);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+.split-media img { width: 100%; height: 100%; object-fit: cover; }
+.split-media.illus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 22px 22px, rgba(15,31,51,0.07) 1.5px, transparent 1.5px) 0 0/24px 24px,
+    var(--panel-deep);
+}
+.split-media.illus svg { width: 62%; height: 62%; }
+.split-media .stamp {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+.checklist { list-style: none; margin: 26px 0; padding: 0; }
+.checklist li {
+  display: flex;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.96rem;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist svg { width: 17px; height: 17px; color: var(--teal-deep); flex-shrink: 0; margin-top: 2px; }
+@media (max-width: 860px) {
+  .split, .split.reverse { grid-template-columns: 1fr; }
+  .split.reverse .split-media { order: 0; }
+}
+
+/* industries chips ----------------------------------------------------- */
+.industry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.industry-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px 26px;
+  background: var(--white);
+}
+.industry-card .idx {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--slate-soft);
+  display: block;
+  margin-bottom: 14px;
+}
+.industry-card h3 { font-size: 1.08rem; margin-bottom: 8px; }
+.industry-card p { font-size: 0.9rem; margin: 0; }
+@media (max-width: 900px) { .industry-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .industry-grid { grid-template-columns: 1fr; } }
+
+/* testimonials ---------------------------------------------------------- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.testimonial {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  position: relative;
+}
+.testimonial::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 32px;
+  width: 30px; height: 3px;
+  background: var(--teal);
+}
+.testimonial p.quote {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+.testimonial .who { font-family: var(--font-mono); font-size: 0.78rem; color: var(--slate); text-transform: uppercase; letter-spacing: .04em; }
+.testimonial .who strong { color: var(--ink); display: block; font-family: var(--font-body); text-transform: none; font-size: 0.95rem; margin-bottom: 2px; letter-spacing: 0; }
+@media (max-width: 720px) { .testimonial-grid { grid-template-columns: 1fr; } }
+
+/* FAQ --------------------------------------------------------------------*/
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary .plus { flex-shrink: 0; width: 24px; height: 24px; position: relative; }
+.faq-item summary .plus::before, .faq-item summary .plus::after {
+  content: ""; position: absolute; background: var(--ink); transition: transform .2s ease;
+}
+.faq-item summary .plus::before { top: 50%; left: 0; right: 0; height: 1.5px; transform: translateY(-50%); }
+.faq-item summary .plus::after { left: 50%; top: 0; bottom: 0; width: 1.5px; transform: translateX(-50%); }
+.faq-item[open] summary .plus::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
+.faq-item .faq-a { padding-bottom: 24px; max-width: 65ch; }
+
+/* CTA band -----------------------------------------------------------*/
+.cta-band {
+  background: var(--ink);
+  color: var(--white);
+  padding: 72px 0;
+  text-align: center;
+}
+.cta-band h2 { color: var(--white); max-width: 20ch; margin-left: auto; margin-right: auto; }
+.cta-band .phone-big {
+  font-family: var(--font-mono);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--teal);
+  display: block;
+  margin: 18px 0 30px;
+}
+.cta-band .actions { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+
+/* forms --------------------------------------------------------------- */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-grid .full { grid-column: 1 / -1; }
+label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+input, textarea, select {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: 3px;
+  padding: 13px 14px;
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  color: var(--ink);
+}
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 1px;
+  border-color: var(--teal);
+}
+textarea { resize: vertical; min-height: 120px; }
+@media (max-width: 620px) { .form-grid { grid-template-columns: 1fr; } }
+
+/* contact info blocks ---------------------------------------------------*/
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--line);
+}
+.info-grid .cell {
+  padding: 26px 22px;
+  border-left: 1px solid var(--line);
+}
+.info-grid .cell:first-child { border-left: none; }
+.info-grid svg { width: 18px; height: 18px; color: var(--teal-deep); margin-bottom: 12px; }
+.info-grid .label { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate); display: block; margin-bottom: 6px; }
+.info-grid .value { font-weight: 600; font-size: 0.98rem; }
+@media (max-width: 860px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .info-grid { grid-template-columns: 1fr; } .info-grid .cell { border-left: none; border-top: 1px solid var(--line); } .info-grid .cell:first-child { border-top: none; } }
+
+.map-frame { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.map-frame iframe { width: 100%; height: 380px; border: 0; display: block; }
+
+/* page intro banners (non-home pages) ------------------------------------*/
+.page-banner {
+  background: var(--ink);
+  color: var(--white);
+  padding: 64px 0 54px;
+  position: relative;
+  overflow: hidden;
+}
+.page-banner::after {
+  content: "";
+  position: absolute;
+  top: -30%; right: -6%;
+  width: 40%; height: 160%;
+  background: linear-gradient(115deg, transparent 42%, rgba(140,198,63,0.2) 46%, rgba(140,198,63,0.04) 52%, transparent 58%);
+}
+.page-banner .wrap { position: relative; z-index: 2; }
+.page-banner h1 { color: var(--white); margin-bottom: 12px; }
+.page-banner p { color: rgba(255,255,255,0.68); max-width: 56ch; font-size: 1.05rem; margin: 0; }
+.crumbs { font-family: var(--font-mono); font-size: 0.74rem; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
+
+/* service area list ------------------------------------------------------*/
+.area-list { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px; }
+.area-list span {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 20px;
+  color: var(--slate);
+}
+
+/* dedicated service page components --------------------------------- */
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 32px;
+  margin: 26px 0 30px;
+}
+.included-grid .checklist { margin: 0; }
+@media (max-width: 620px) { .included-grid { grid-template-columns: 1fr; } }
+
+.local-note {
+  background: var(--panel);
+  border-left: 3px solid var(--teal);
+  border-radius: 3px;
+  padding: 22px 26px;
+  margin-top: 8px;
+}
+.local-note p { margin: 0; color: var(--ink); font-size: 0.96rem; }
+.local-note .eyebrow { margin-bottom: 8px; }
+
+.related-services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.related-services a {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  background: var(--white);
+}
+.related-services a:hover { border-color: var(--teal); }
+.related-services h4 { font-family: var(--font-display); font-size: 1.02rem; margin: 0 0 6px; }
+.related-services p { font-size: 0.86rem; margin: 0; }
+@media (max-width: 860px) { .related-services { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .related-services { grid-template-columns: 1fr; } }
+
+/* footer -------------------------------------------------------------- */
+.site-footer { background: var(--ink); color: rgba(255,255,255,0.6); padding: 60px 0 30px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.footer-brand .brand { margin-bottom: 14px; }
+.footer-brand .brand-logo { height: 78px; }
+.footer-brand p { color: rgba(255,255,255,0.55); font-size: 0.92rem; max-width: 32ch; }
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+.footer-col a { font-size: 0.92rem; transition: color .15s ease; }
+.footer-col a:hover { color: var(--teal); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 26px;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.8rem;
+}
+.social-row { display: flex; gap: 14px; }
+.social-row a {
+  width: 34px; height: 34px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+}
+.social-row a:hover { border-color: var(--teal); color: var(--teal); }
+.social-row svg { width: 15px; height: 15px; }
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* reveal-on-scroll ------------------------------------------------------ */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* utility */
+.mt-0 { margin-top: 0; }
+.center-text { text-align: center; }
+
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="Master Commercial Cleaning - We Master the ART of Cleaning" class="brand-logo" width="300" height="218">
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li class="has-dropdown">
+          <a href="services.html">Services</a>
+          <button class="dropdown-toggle" aria-label="Toggle services menu" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="dropdown"><a href="janitorial-cleaning.html"><span>Janitorial & Office Cleaning</span><span class="sub">Daily upkeep for offices & workplaces</span></a><a href="carpet-upholstery-cleaning.html"><span>Carpet & Upholstery Cleaning</span><span class="sub">Hot-water extraction & steam cleaning</span></a><a href="floor-care.html"><span>Floor Stripping & Waxing</span><span class="sub">Vinyl & hard-surface floor care</span></a><a href="window-cleaning.html"><span>Window Cleaning</span><span class="sub">Interior & exterior glass</span></a><a href="post-construction-cleaning.html"><span>Post-Construction Cleanup</span><span class="sub">Move-in ready after a build</span></a><a href="pressure-washing.html"><span>Pressure Washing</span><span class="sub">Exterior surfaces & walkways</span></a><a href="medical-dental-cleaning.html"><span>Medical & Dental Facility Cleaning</span><span class="sub">Clinical-grade sanitizing</span></a><a href="drive-thru-exterior-detailing.html"><span>Drive-Thru & Exterior Detailing</span><span class="sub">Restaurant lots, lanes & dumpster pads</span></a></div>
+        </li><li><a href="industries.html">Industries</a></li><li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a class="header-call" href="tel:+12046981133">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span class="txt">+1 (204) 698-1133</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+<main>
+
+  <section class="page-banner">
+    <div class="wrap">
+      <span class="crumbs">Home / Services / Drive-Thru & Exterior Detailing</span>
+      <h1>Drive-Thru & Exterior Detailing</h1>
+      <p>The parts of your property every customer drives past.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split reveal">
+      <div>
+        <span class="eyebrow">What's Included</span>
+        <p>For restaurants and quick-service properties, the exterior does a lot of the talking before anyone walks through the door. A clean drive-thru lane, tidy entrance, and dumpster pad without spillover all shape how customers judge the place before they order.</p>
+        <p>We handle the detailing that regular janitorial service doesn't reach: drive-thru lanes, parking lot debris, entrance mats and glass, and dumpster or grease-trap areas, on a schedule built around your hours of operation.</p>
+        <div class="included-grid">
+          <ul class="checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Drive-thru lane sweeping and pressure washing</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Parking lot and entrance debris removal</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Dumpster pad and grease area cleaning</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Entrance glass and door detailing</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Curb and signage wipe-down</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Early morning or overnight scheduling</li>
+          </ul>
+        </div>
+        <a href="contact.html" class="btn btn-primary">Get a free quote</a>
+      </div>
+      <div class="split-media">
+        <img src="images/photos/drive-thru-exterior-detailing.webp" alt="Workers cleaning a commercial drive-thru lane and surrounding exterior surfaces" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="on-panel">
+    <div class="wrap" style="max-width:760px">
+      <div class="local-note reveal">
+        <span class="eyebrow">Serving Winnipeg &amp; Selkirk</span>
+        <p>We work with restaurant and retail properties across Winnipeg to keep drive-thru lanes and lots looking sharp, scheduled around opening hours so there's no crossover with customer traffic.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Related Services</span>
+        <h2>Often paired with drive-thru & exterior detailing.</h2>
+      </div>
+      <div class="related-services reveal">
+        <a href="janitorial-cleaning.html">
+          <h4>Janitorial & Office Cleaning</h4>
+          <p>Sweeping, sanitizing, and daily upkeep for offices and business properties across Winnipeg.</p>
+        </a>
+<a href="carpet-upholstery-cleaning.html">
+          <h4>Carpet & Upholstery Cleaning</h4>
+          <p>Hot-water extraction and steam cleaning that lifts embedded soil without harsh chemicals.</p>
+        </a>
+<a href="floor-care.html">
+          <h4>Floor Stripping & Waxing</h4>
+          <p>Stripping, waxing and polishing that restores shine to vinyl and hard-surface flooring.</p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Ready to schedule drive-thru & exterior detailing?</h2>
+      <span class="phone-big">+1 (204) 698-1133</span>
+      <div class="actions">
+        <a href="contact.html" class="btn btn-primary">Request a free estimate</a>
+        <a href="mailto:clean@mastercleaning.ca" class="btn btn-on-dark">Email clean@mastercleaning.ca</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">
+      <img src="images/logo.png" alt="Master Commercial Cleaning - We Master the ART of Cleaning" class="brand-logo" width="300" height="218">
+    </a>
+        <p>Commercial cleaning and building maintenance for Winnipeg and Selkirk businesses since 2015.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="industries.html">Industries</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="janitorial-cleaning.html">Janitorial & Office Cleaning</a></li><li><a href="carpet-upholstery-cleaning.html">Carpet & Upholstery Cleaning</a></li><li><a href="floor-care.html">Floor Stripping & Waxing</a></li><li><a href="window-cleaning.html">Window Cleaning</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+12046981133">+1 (204) 698-1133</a></li>
+          <li><a href="mailto:clean@mastercleaning.ca">clean@mastercleaning.ca</a></li>
+          <li><a href="https://maps.google.com/?q=1599+Dugald+Rd,+Winnipeg,+MB" target="_blank" rel="noopener">1599 Dugald Rd, Winnipeg, MB</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="privacy-policy.html">Privacy Policy</a></span>
+      <div class="social-row">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" aria-label="Twitter / X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<button id="wa-fab" class="wa-fab" aria-label="Chat with us on WhatsApp">
+  <span class="wa-ping" aria-hidden="true"></span>
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.001 3C9.107 3 3.5 8.607 3.5 15.5c0 2.348.65 4.545 1.777 6.42L3 29l7.256-2.234A12.44 12.44 0 0 0 16.001 28C22.895 28 28.5 22.393 28.5 15.5S22.895 3 16.001 3zm7.29 17.61c-.31.87-1.53 1.6-2.51 1.81-.67.14-1.54.25-4.47-.96-3.75-1.55-6.17-5.35-6.36-5.6-.19-.25-1.52-2.02-1.52-3.86 0-1.84.96-2.74 1.31-3.12.31-.34.83-.5 1.32-.5.16 0 .3.01.43.01.38.02.57.04.82.63.31.75 1.06 2.59 1.15 2.78.09.19.15.41.03.66-.11.25-.17.4-.34.61-.17.21-.36.47-.51.63-.17.18-.35.37-.15.72.19.35.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.69 1.65.35.17.55.14.75-.08.2-.22.86-1 1.09-1.35.23-.35.46-.29.77-.17.31.11 1.99.94 2.33 1.11.34.17.57.25.65.39.09.14.09.83-.22 1.7z"/></svg>
+</button>
+
+<div id="wa-overlay" class="wa-overlay">
+  <div class="wa-modal" role="dialog" aria-modal="true" aria-label="Chat with us on WhatsApp">
+    <div class="wa-modal-head">
+      <span class="wa-avatar">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.001 3C9.107 3 3.5 8.607 3.5 15.5c0 2.348.65 4.545 1.777 6.42L3 29l7.256-2.234A12.44 12.44 0 0 0 16.001 28C22.895 28 28.5 22.393 28.5 15.5S22.895 3 16.001 3zm7.29 17.61c-.31.87-1.53 1.6-2.51 1.81-.67.14-1.54.25-4.47-.96-3.75-1.55-6.17-5.35-6.36-5.6-.19-.25-1.52-2.02-1.52-3.86 0-1.84.96-2.74 1.31-3.12.31-.34.83-.5 1.32-.5.16 0 .3.01.43.01.38.02.57.04.82.63.31.75 1.06 2.59 1.15 2.78.09.19.15.41.03.66-.11.25-.17.4-.34.61-.17.21-.36.47-.51.63-.17.18-.35.37-.15.72.19.35.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.69 1.65.35.17.55.14.75-.08.2-.22.86-1 1.09-1.35.23-.35.46-.29.77-.17.31.11 1.99.94 2.33 1.11.34.17.57.25.65.39.09.14.09.83-.22 1.7z"/></svg>
+      </span>
+      <div>
+        <h3>Master Commercial Cleaning</h3>
+        <p>Typically replies within a few hours</p>
+      </div>
+      <button id="wa-close" class="wa-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="wa-modal-body">
+      <div class="wa-note">Tell us a bit about what you need and we'll open WhatsApp with your message ready to send.</div>
+      <form id="wa-form">
+        <label for="wa-name">Your name</label>
+        <input type="text" id="wa-name" required placeholder="Full name">
+        <label for="wa-phone">Phone number</label>
+        <input type="tel" id="wa-phone" required placeholder="(204) 000-0000">
+        <label for="wa-service">What do you need?</label>
+        <select id="wa-service">
+          <option>Janitorial &amp; Office Cleaning</option>
+          <option>Carpet &amp; Upholstery Cleaning</option>
+          <option>Floor Stripping &amp; Waxing</option>
+          <option>Window Cleaning</option>
+          <option>Post-Construction Cleanup</option>
+          <option>Pressure Washing</option>
+          <option>Medical &amp; Dental Facility Cleaning</option>
+          <option>Drive-Thru &amp; Exterior Detailing</option>
+          <option>General question</option>
+        </select>
+        <label for="wa-message">Anything else? (optional)</label>
+        <textarea id="wa-message" rows="3" placeholder="Square footage, schedule, or other details"></textarea>
+        <button type="submit" class="wa-send-btn">
+          <svg viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.001 3C9.107 3 3.5 8.607 3.5 15.5c0 2.348.65 4.545 1.777 6.42L3 29l7.256-2.234A12.44 12.44 0 0 0 16.001 28C22.895 28 28.5 22.393 28.5 15.5S22.895 3 16.001 3zm7.29 17.61c-.31.87-1.53 1.6-2.51 1.81-.67.14-1.54.25-4.47-.96-3.75-1.55-6.17-5.35-6.36-5.6-.19-.25-1.52-2.02-1.52-3.86 0-1.84.96-2.74 1.31-3.12.31-.34.83-.5 1.32-.5.16 0 .3.01.43.01.38.02.57.04.82.63.31.75 1.06 2.59 1.15 2.78.09.19.15.41.03.66-.11.25-.17.4-.34.61-.17.21-.36.47-.51.63-.17.18-.35.37-.15.72.19.35.86 1.42 1.85 2.3 1.27 1.13 2.34 1.48 2.69 1.65.35.17.55.14.75-.08.2-.22.86-1 1.09-1.35.23-.35.46-.29.77-.17.31.11 1.99.94 2.33 1.11.34.17.57.25.65.39.09.14.09.83-.22 1.7z"/></svg>
+          Send via WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="js/whatsapp-widget.js" defer></script>
+<script>
+// MASTER Commercial Cleaning — shared site behaviour
+document.addEventListener("DOMContentLoaded", function () {
+  // Mobile nav toggle
+  var header = document.querySelector(".site-header");
+  var toggle = document.querySelector(".nav-toggle");
+  if (toggle && header) {
+    toggle.addEventListener("click", function () {
+      header.classList.toggle("nav-open");
+      var expanded = header.classList.contains("nav-open");
+      toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+    });
+    document.querySelectorAll(".main-nav a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        header.classList.remove("nav-open");
+      });
+    });
+  }
+
+  // Services dropdown toggle (click/tap — hover still works via CSS on desktop)
+  document.querySelectorAll(".dropdown-toggle").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      var parent = btn.closest(".has-dropdown");
+      var isOpen = parent.classList.contains("dropdown-open");
+      document.querySelectorAll(".has-dropdown.dropdown-open").forEach(function (el) {
+        el.classList.remove("dropdown-open");
+        var t = el.querySelector(".dropdown-toggle");
+        if (t) t.setAttribute("aria-expanded", "false");
+      });
+      if (!isOpen) {
+        parent.classList.add("dropdown-open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".has-dropdown")) {
+      document.querySelectorAll(".has-dropdown.dropdown-open").forEach(function (el) {
+        el.classList.remove("dropdown-open");
+      });
+    }
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && revealEls.length) {
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+  }
+
+  // Contact form (static demo — no backend wired up yet)
+  var form = document.querySelector("#quote-form");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var note = document.querySelector("#form-note");
+      if (note) {
+        note.textContent = "Thanks — this form isn't wired to an inbox yet. For now, please call +1 (204) 698-1133 or email clean@mastercleaning.ca and we'll get back to you within one business day.";
+        note.hidden = false;
+      }
+      form.reset();
+    });
+  }
+
+  // Footer year
+  var yearEl = document.querySelector("#year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+});
+
+</script>
+</body>
+</html>
