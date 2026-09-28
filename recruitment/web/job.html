@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job | Master Commercial Cleaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/recruitment-assets/public.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="/"><img class="brand-logo" src="/images/logo.png" alt="Master Commercial Cleaning"></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/industries.html">Industries</a></li>
+        <li><a href="/careers" aria-current="page">Careers</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
+    </nav>
+  </div>
+</header>
+<main class="section">
+  <div class="wrap" id="job"></div>
+</main>
+<footer class="site-footer"><div class="wrap"><a href="/careers">View current opportunities</a></div></footer>
+<script>
+document.querySelector(".nav-toggle").addEventListener("click", function () {
+  document.querySelector(".site-header").classList.toggle("nav-open");
+});
+var id = location.pathname.split("/").pop();
+var root = document.getElementById("job");
+function escapeHtml(value) { return String(value || "").replace(/[&<>"']/g, function (ch) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]; }); }
+function rich(value) {
+  var text = String(value || "");
+  if (text.indexOf("<") === -1) return escapeHtml(text);
+  return text;
+}
+fetch("/api/v1/jobs/" + encodeURIComponent(id)).then(function (res) {
+  if (!res.ok) throw new Error("missing");
+  return res.json();
+}).then(function (data) {
+  var job = data.job;
+  document.title = job.title + " | Master Commercial Cleaning";
+  if (!sessionStorage.getItem("viewed-" + job.job_id)) {
+    sessionStorage.setItem("viewed-" + job.job_id, "1");
+    fetch("/api/v1/jobs/" + encodeURIComponent(job.job_id) + "/view", { method: "POST" });
+  }
+  root.innerHTML = '<div class="detail-grid"><article><span class="eyebrow">' + escapeHtml(job.job_id) + '</span><h1>' + escapeHtml(job.title) + '</h1><div class="meta">' +
+    [job.city ? job.city + ", " + job.province : job.location, job.employment_type_label, job.shift, job.pay].filter(Boolean).map(function (item) { return '<span class="chip">' + escapeHtml(item) + '</span>'; }).join("") +
+    '</div><h2>Job description</h2><div class="prose">' + rich(job.description) + '</div><h2>Requirements</h2><div class="prose">' + rich(job.requirements) + '</div></article><aside class="panel"><h2>This role</h2><p><strong>Location</strong><br>' + escapeHtml(job.location) + (job.address ? '<br>' + escapeHtml(job.address) : '') + '</p><p><strong>Employment type</strong><br>' + escapeHtml(job.employment_type_label) + '</p><p><strong>Schedule</strong><br>' + escapeHtml(job.shift || "See description") + '</p>' +
+    (job.start_date ? '<p><strong>Start date</strong><br>' + escapeHtml(job.start_date) + '</p>' : '') +
+    (job.accepting_applications ? '<a class="btn" href="/apply?job=' + encodeURIComponent(job.job_id) + '">Apply Now</a>' : '<p>Applications are closed for this position.</p>') +
+    '</aside></div>';
+}).catch(function () {
+  root.innerHTML = '<div class="empty"><h1>This position is no longer available.</h1><p>It may have been filled or closed.</p><a class="btn" href="/careers">View Current Opportunities</a></div>';
+});
+</script>
+</body>
+</html>

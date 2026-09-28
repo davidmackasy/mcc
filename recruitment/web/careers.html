@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Our Team | Master Commercial Cleaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/recruitment-assets/public.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="/"><img class="brand-logo" src="/images/logo.png" alt="Master Commercial Cleaning"></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/industries.html">Industries</a></li>
+        <li><a href="/careers" aria-current="page">Careers</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Careers</span>
+      <h1>Join Our Team</h1>
+      <p>We're looking for reliable and hardworking people to join our cleaning team. Browse our current opportunities and apply online.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <div class="filters">
+        <select id="filter-location" aria-label="Filter by location"><option value="">All locations</option></select>
+        <select id="filter-type" aria-label="Filter by employment type">
+          <option value="">All types</option>
+          <option value="full-time">Full-Time</option>
+          <option value="part-time">Part-Time</option>
+          <option value="casual">Casual</option>
+          <option value="temporary">Temporary</option>
+          <option value="contract">Contract</option>
+        </select>
+      </div>
+      <div id="jobs" class="job-list"><!--JOBS--></div>
+      <div class="panel ask-box">
+        <h2>Ask before you apply</h2>
+        <p>Have a question about a position, the schedule, or whether we're hiring? You don't need to complete an application.</p>
+        <button class="btn" type="button" id="open-ask">Ask a question</button>
+      </div>
+      <dialog id="ask-dialog">
+        <form id="ask-form" method="dialog">
+          <h2>Ask a question</h2>
+          <div class="field"><label for="ask-name">Name</label><input id="ask-name" name="name" required autofocus></div>
+          <div class="field"><label for="ask-email">Email</label><input id="ask-email" name="email" type="email" required></div>
+          <div class="field"><label for="ask-phone">Phone <span class="help">(optional)</span></label><input id="ask-phone" name="phone" type="tel"></div>
+          <div class="field"><label for="ask-job">Position <span class="help">(optional)</span></label><select id="ask-job" name="job_id"><option value="">General question</option></select></div>
+          <div class="field"><label for="ask-message">Your question</label><textarea id="ask-message" name="message" rows="5" required></textarea></div>
+          <div class="field"><label for="ask-file">Photo or document <span class="help">(optional, PDF or image, 10 MB)</span></label><input id="ask-file" name="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,image/jpeg,image/png,application/pdf"></div>
+          <p class="error" id="ask-error" hidden></p>
+          <div class="form-actions">
+            <button class="btn btn-ghost" type="button" id="close-ask">Cancel</button>
+            <button class="btn" type="submit">Send question</button>
+          </div>
+          <div class="honeypot" aria-hidden="true"><label>Company<input name="company_website" tabindex="-1" autocomplete="off"></label></div>
+        </form>
+        <p id="ask-done" hidden>Thank you. Your question was received. If it matches what we're hiring for, someone from Master Commercial Cleaning may contact you.</p>
+      </dialog>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="wrap">Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="/privacy-policy.html">Privacy Policy</a></div></footer>
+<script>
+document.querySelector(".nav-toggle").addEventListener("click", function () {
+  document.querySelector(".site-header").classList.toggle("nav-open");
+});
+var jobsEl = document.getElementById("jobs");
+var locationFilter = document.getElementById("filter-location");
+var typeFilter = document.getElementById("filter-type");
+function load() {
+  var params = new URLSearchParams();
+  if (locationFilter.value) params.set("location", locationFilter.value);
+  if (typeFilter.value) params.set("type", typeFilter.value);
+  fetch("/api/v1/jobs?" + params.toString()).then(function (res) { return res.json(); }).then(function (data) {
+    var jobs = data.jobs || [];
+    if (!jobs.length) {
+      jobsEl.innerHTML = '<div class="empty"><h2>No Open Positions Right Now</h2><p>We don\'t currently have any positions available. Please check back again soon.</p></div>';
+      return;
+    }
+    jobsEl.innerHTML = jobs.map(function (job) {
+      return '<article class="job-card"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
+        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/jobs/' + encodeURIComponent(job.job_id) + '">View Job</a></article>';
+    }).join("");
+  }).catch(function () {
+    jobsEl.innerHTML = '<div class="empty"><h2>Jobs are unavailable</h2><p>Please refresh the page in a moment.</p></div>';
+  });
+}
+function chip(text) { return text ? '<span class="chip">' + escapeHtml(text) + '</span>' : ''; }
+function escapeHtml(value) { return String(value || "").replace(/[&<>"']/g, function (ch) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]; }); }
+fetch("/api/v1/locations").then(function (res) { return res.json(); }).then(function (data) {
+  (data.locations || []).forEach(function (loc) {
+    var option = document.createElement("option");
+    option.value = loc.name;
+    option.textContent = loc.name;
+    locationFilter.appendChild(option);
+  });
+});
+locationFilter.addEventListener("change", load);
+typeFilter.addEventListener("change", load);
+load();
+fetch("/api/v1/jobs").then(function (res) { return res.json(); }).then(function (data) {
+  var select = document.getElementById("ask-job");
+  (data.jobs || []).forEach(function (job) {
+    var option = document.createElement("option");
+    option.value = job.job_id;
+    option.textContent = job.title + " — " + job.location;
+    select.appendChild(option);
+  });
+});
+var askDialog = document.getElementById("ask-dialog");
+document.getElementById("open-ask").addEventListener("click", function () { askDialog.showModal(); });
+document.getElementById("close-ask").addEventListener("click", function () { askDialog.close(); });
+document.getElementById("ask-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+  var form = event.target;
+  var error = document.getElementById("ask-error");
+  error.hidden = true;
+  fetch("/api/v1/inquiries", { method: "POST", body: new FormData(form) }).then(function (res) {
+    return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+  }).then(function (result) {
+    if (!result.ok) {
+      error.hidden = false;
+      error.textContent = (result.body && result.body.error) || "Could not send your question.";
+      return;
+    }
+    form.hidden = true;
+    document.getElementById("ask-done").hidden = false;
+  });
+});
+</script>
+</body>
+</html>

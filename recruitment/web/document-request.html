@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upload a document | Master Commercial Cleaning</title>
+<link rel="stylesheet" href="/recruitment-assets/public.css">
+</head>
+<body>
+<main class="section"><div class="wrap" style="max-width:640px">
+  <h1>Upload a document</h1>
+  <div id="info"></div>
+  <form id="upload" hidden>
+    <div class="field"><label for="file">File</label><input id="file" name="file" type="file" required></div>
+    <div class="field"><label for="expiry_date">Expiry date, if the document has one</label><input id="expiry_date" name="expiry_date" type="date"></div>
+    <p class="error" id="err" hidden></p>
+    <button class="btn" type="submit">Upload</button>
+  </form>
+  <div id="done" class="empty" hidden><h2>Document received</h2><p>Thank you. Master Commercial Cleaning has the file.</p></div>
+</div></main>
+<script>
+var token = location.pathname.split("/").pop();
+var info = document.getElementById("info");
+fetch("/api/v1/document-requests/" + token).then(function (res) { return res.json(); }).then(function (data) {
+  var item = data.request;
+  if (!item || item.expired) {
+    info.innerHTML = "<p>This upload link is no longer available.</p>";
+    return;
+  }
+  info.innerHTML = "<p>Hello " + item.applicant + ". Please upload your " + item.label + ".</p>" + (item.message ? "<p>" + item.message + "</p>" : "") + (item.due_date ? "<p>Due " + item.due_date + "</p>" : "");
+  document.getElementById("upload").hidden = false;
+});
+document.getElementById("upload").onsubmit = function (event) {
+  event.preventDefault();
+  var body = new FormData(event.target);
+  fetch("/api/v1/document-requests/" + token, { method: "POST", body: body }).then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); }).then(function (result) {
+    if (!result.ok) {
+      document.getElementById("err").hidden = false;
+      document.getElementById("err").textContent = result.data.error || "Upload failed.";
+      return;
+    }
+    document.getElementById("upload").hidden = true;
+    document.getElementById("done").hidden = false;
+  });
+};
+</script>
+</body>
+</html>

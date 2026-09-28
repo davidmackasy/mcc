@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <title>Contact Us — Master Commercial Cleaning</title>
-<meta name="description" content="Request a free cleaning estimate in Winnipeg or Selkirk, MB. Call +1 (204) 698-1133, email clean@mastercleaning.ca, or visit 1599 Dugald Rd, Winnipeg, MB.">
+<meta name="description" content="Request a free cleaning estimate in Winnipeg or Selkirk, MB. Call +1 (204) 698-1133, email clean@mastercleaning.ca, or visit Unit 7, 1599 Dugald Rd, Winnipeg, MB.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/whatsapp-widget.css">
@@ -634,11 +634,24 @@ input:focus, textarea:focus, select:focus {
 }
 textarea { resize: vertical; min-height: 120px; }
 @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr; } }
+.capture-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.capture-actions .btn { min-height: 44px; }
+.camera-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.shot-list { display: grid; gap: 12px; margin-top: 12px; }
+.shot-card { display: grid; grid-template-columns: 112px 1fr; gap: 12px; border: 1px solid var(--line); background: var(--white); padding: 12px; }
+.shot-card img, .shot-card video { width: 112px; height: 112px; object-fit: cover; background: var(--panel); }
+.shot-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.shot-card input { padding: 10px 12px; }
+.shot-card .remove { margin-top: 8px; background: transparent; color: var(--ink); border: 1px solid var(--line); }
+@media (max-width: 620px) {
+  .shot-card { grid-template-columns: 1fr; }
+  .shot-fields { grid-template-columns: 1fr 1fr; }
+}
 
 /* contact info blocks ---------------------------------------------------*/
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   border: 1px solid var(--line);
 }
 .info-grid .cell {
@@ -649,7 +662,7 @@ textarea { resize: vertical; min-height: 120px; }
 .info-grid svg { width: 18px; height: 18px; color: var(--teal-deep); margin-bottom: 12px; }
 .info-grid .label { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate); display: block; margin-bottom: 6px; }
 .info-grid .value { font-weight: 600; font-size: 0.98rem; }
-@media (max-width: 860px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px) { .info-grid { grid-template-columns: 1fr; } }
 @media (max-width: 500px) { .info-grid { grid-template-columns: 1fr; } .info-grid .cell { border-left: none; border-top: 1px solid var(--line); } .info-grid .cell:first-child { border-top: none; } }
 
 .map-frame { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -797,7 +810,7 @@ textarea { resize: vertical; min-height: 120px; }
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="dropdown"><a href="janitorial-cleaning.html"><span>Janitorial & Office Cleaning</span><span class="sub">Daily upkeep for offices & workplaces</span></a><a href="carpet-upholstery-cleaning.html"><span>Carpet & Upholstery Cleaning</span><span class="sub">Hot-water extraction & steam cleaning</span></a><a href="floor-care.html"><span>Floor Stripping & Waxing</span><span class="sub">Vinyl & hard-surface floor care</span></a><a href="window-cleaning.html"><span>Window Cleaning</span><span class="sub">Interior & exterior glass</span></a><a href="post-construction-cleaning.html"><span>Post-Construction Cleanup</span><span class="sub">Move-in ready after a build</span></a><a href="pressure-washing.html"><span>Pressure Washing</span><span class="sub">Exterior surfaces & walkways</span></a><a href="medical-dental-cleaning.html"><span>Medical & Dental Facility Cleaning</span><span class="sub">Clinical-grade sanitizing</span></a><a href="drive-thru-exterior-detailing.html"><span>Drive-Thru & Exterior Detailing</span><span class="sub">Restaurant lots, lanes & dumpster pads</span></a></div>
-        </li><li><a href="industries.html">Industries</a></li><li><a href="contact.html" aria-current="page">Contact</a></li>
+        </li><li><a href="industries.html">Industries</a></li><li><a href="/careers">Careers</a></li><li><a href="contact.html" aria-current="page">Contact</a></li>
       </ul>
       <a class="header-call" href="tel:+12046981133">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -823,14 +836,9 @@ textarea { resize: vertical; min-height: 120px; }
     <div class="wrap">
       <div class="info-grid reveal">
         <div class="cell">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
-          <span class="label">Email Us</span>
-          <a class="value" href="mailto:clean@mastercleaning.ca">clean@mastercleaning.ca</a>
-        </div>
-        <div class="cell">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <span class="label">Address</span>
-          <a class="value" href="https://maps.google.com/?q=1599+Dugald+Rd,+Winnipeg,+MB" target="_blank" rel="noopener">1599 Dugald Rd, Winnipeg, MB</a>
+          <a class="value" href="https://maps.google.com/?q=Unit+7,+1599+Dugald+Rd,+Winnipeg,+MB" target="_blank" rel="noopener">Unit 7, 1599 Dugald Rd, Winnipeg, MB</a>
         </div>
         <div class="cell">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -851,12 +859,10 @@ textarea { resize: vertical; min-height: 120px; }
       <div>
         <span class="eyebrow">Request A Quote</span>
         <h2>Tell us about your facility.</h2>
-        <p>Fill this out with a few details and we'll get back to you with next steps — or just call or email directly if that's faster.</p>
+        <p>Share a few details, and photos or a short video of the space if you have them. We'll follow up with next steps, or you can call if that's faster.</p>
 
         <form id="quote-form">
-          <input type="hidden" name="access_key" value="19e43475-f68d-462d-a104-945834a9d041">
-          <input type="hidden" name="subject" value="New quote request — Master Commercial Cleaning website">
-          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+          <div aria-hidden="true" style="position:absolute;left:-9999px;height:0;overflow:hidden"><label>Company<input name="company_website" tabindex="-1" autocomplete="off"></label></div>
           <div class="form-grid">
             <div>
               <label for="name">Full name</label>
@@ -874,23 +880,84 @@ textarea { resize: vertical; min-height: 120px; }
               <label for="phone">Phone</label>
               <input type="tel" id="phone" name="phone">
             </div>
-            <div class="full">
+            <div>
+              <label for="facility_type">Facility type</label>
+              <select id="facility_type" name="facility_type">
+                <option>Office</option>
+                <option>Retail</option>
+                <option>Medical or dental</option>
+                <option>Restaurant</option>
+                <option>Warehouse or industrial</option>
+                <option>Residential</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div>
+              <label for="city">City</label>
+              <select id="city" name="city">
+                <option>Winnipeg</option>
+                <option>Selkirk</option>
+                <option>Oakbank</option>
+                <option>Beausejour</option>
+                <option>Other part of Manitoba</option>
+              </select>
+            </div>
+            <div>
+              <label for="square_feet">Approximate size (sq ft)</label>
+              <input type="text" id="square_feet" name="square_feet" inputmode="numeric" placeholder="e.g. 2500">
+            </div>
+            <div>
+              <label for="rooms">Rooms or areas</label>
+              <input type="text" id="rooms" name="rooms" placeholder="e.g. 8 offices, 2 washrooms">
+            </div>
+            <div>
               <label for="service">Service needed</label>
               <select id="service" name="service">
-              <option>Janitorial & Office Cleaning</option>
-              <option>Carpet & Upholstery Cleaning</option>
-              <option>Floor Stripping & Waxing</option>
-              <option>Window Cleaning</option>
-              <option>Post-Construction Cleanup</option>
-              <option>Pressure Washing</option>
-              <option>Medical & Dental Facility Cleaning</option>
-              <option>Drive-Thru & Exterior Detailing</option>
+                <option>Janitorial & Office Cleaning</option>
+                <option>Carpet & Upholstery Cleaning</option>
+                <option>Floor Stripping & Waxing</option>
+                <option>Window Cleaning</option>
+                <option>Post-Construction Cleanup</option>
+                <option>Pressure Washing</option>
+                <option>Medical & Dental Facility Cleaning</option>
+                <option>Drive-Thru & Exterior Detailing</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div>
+              <label for="frequency">How often</label>
+              <select id="frequency" name="frequency">
+                <option>One-time</option>
+                <option>Weekly</option>
+                <option>A few times a week</option>
+                <option>Daily</option>
                 <option>Not sure yet</option>
               </select>
             </div>
             <div class="full">
-              <label for="message">Tell us about your space</label>
-              <textarea id="message" name="message" placeholder="Square footage, current schedule, or anything else that helps us scope it."></textarea>
+              <label for="message">Short brief</label>
+              <textarea id="message" name="message" required placeholder="What needs cleaning, access notes, or anything that helps us scope the visit."></textarea>
+            </div>
+            <div class="full">
+              <label>Photos of the space <span style="font-weight:400;letter-spacing:0;text-transform:none">(optional, up to 6)</span></label>
+              <div class="capture-actions">
+                <button class="btn btn-primary" type="button" id="take-photo-btn">Take a photo</button>
+                <button class="btn btn-ghost" type="button" id="pick-photos-btn">Choose photos</button>
+              </div>
+              <input class="camera-input" id="take-photo" type="file" accept="image/*" capture="environment">
+              <input class="camera-input" id="pick-photos" type="file" accept="image/jpeg,image/png,image/webp,image/heic,.jpg,.jpeg,.png,.webp,.heic" multiple>
+              <div id="photo-list" class="shot-list"></div>
+            </div>
+            <div class="full">
+              <label>Walk-through video <span style="font-weight:400;letter-spacing:0;text-transform:none">(optional, up to 25 MB)</span></label>
+              <div class="capture-actions">
+                <button class="btn btn-primary" type="button" id="record-video-btn">Record a walk-through</button>
+                <button class="btn btn-ghost" type="button" id="pick-video-btn">Choose a video</button>
+              </div>
+              <input class="camera-input" id="record-video" type="file" accept="video/*" capture="environment">
+              <input class="camera-input" id="pick-video" type="file" accept="video/mp4,video/quicktime,video/webm,.mp4,.mov,.webm">
+              <div id="video-list" class="shot-list"></div>
+              <p style="margin:8px 0 0;font-size:0.86rem;color:var(--slate)">On a phone, Take a photo and Record a walk-through open the camera. After each one, enter the length and width in feet if you know them, such as 16 by 20, or type the square footage. A photo cannot measure the room by itself.</p>
             </div>
           </div>
           <div style="margin-top:22px">
@@ -903,8 +970,8 @@ textarea { resize: vertical; min-height: 120px; }
       <div>
         <div class="map-frame">
           <iframe
-            src="https://maps.google.com/maps?q=1599%20Dugald%20Rd%2C%20Winnipeg%2C%20MB&t=&z=14&ie=UTF8&iwloc=&output=embed"
-            title="Map to Master Commercial Cleaning, 1599 Dugald Rd, Winnipeg, MB"
+            src="https://maps.google.com/maps?q=Unit%207%2C%201599%20Dugald%20Rd%2C%20Winnipeg%2C%20MB&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            title="Map to Master Commercial Cleaning, Unit 7, 1599 Dugald Rd, Winnipeg, MB"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
@@ -914,8 +981,11 @@ textarea { resize: vertical; min-height: 120px; }
         <div class="area-list">
           <span>Winnipeg, MB</span>
           <span>Selkirk, MB</span>
+          <span>Oakbank, MB</span>
+          <span>Beausejour, MB</span>
+          <span>Part of Manitoba</span>
         </div>
-        <p style="margin-top:14px;font-size:0.92rem">Have a larger project outside these two cities? Email <a href="mailto:clean@mastercleaning.ca" style="color:var(--teal-deep);text-decoration:underline">clean@mastercleaning.ca</a> and we'll let you know if we can help.</p>
+        <p style="margin-top:14px;font-size:0.92rem">Have a project outside these areas? Send a request and we'll let you know if we can help.</p>
       </div>
     </div>
   </section>
@@ -928,7 +998,7 @@ textarea { resize: vertical; min-height: 120px; }
         <a href="index.html" class="brand">
       <img src="images/logo.png" alt="Master Commercial Cleaning - We Master the ART of Cleaning" class="brand-logo" width="300" height="218">
     </a>
-        <p>Commercial cleaning and building maintenance for Winnipeg and Selkirk businesses since 2015.</p>
+        <p>Commercial cleaning and building maintenance for Winnipeg, Selkirk, Oakbank, Beausejour, and part of Manitoba since 2015.</p>
       </div>
       <div class="footer-col">
         <h4>Site</h4>
@@ -937,6 +1007,7 @@ textarea { resize: vertical; min-height: 120px; }
           <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="industries.html">Industries</a></li>
+          <li><a href="/careers">Careers</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </div>
@@ -951,7 +1022,7 @@ textarea { resize: vertical; min-height: 120px; }
         <ul>
           <li><a href="tel:+12046981133">+1 (204) 698-1133</a></li>
           <li><a href="mailto:clean@mastercleaning.ca">clean@mastercleaning.ca</a></li>
-          <li><a href="https://maps.google.com/?q=1599+Dugald+Rd,+Winnipeg,+MB" target="_blank" rel="noopener">1599 Dugald Rd, Winnipeg, MB</a></li>
+          <li><a href="https://maps.google.com/?q=Unit+7,+1599+Dugald+Rd,+Winnipeg,+MB" target="_blank" rel="noopener">Unit 7, 1599 Dugald Rd, Winnipeg, MB</a></li>
         </ul>
       </div>
     </div>
@@ -1075,44 +1146,144 @@ document.addEventListener("DOMContentLoaded", function () {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
-  // Contact form — Web3Forms
+  // Contact form
   var form = document.querySelector("#quote-form");
   if (form) {
+    var note = document.querySelector("#form-note");
+    var shots = [];
+    var walkthrough = null;
+    function showNote(text) {
+      if (!note) return;
+      note.textContent = text;
+      note.hidden = false;
+    }
+    function areaFrom(length, width) {
+      var l = parseFloat(length);
+      var w = parseFloat(width);
+      if (!(l > 0) || !(w > 0)) return "";
+      return String(Math.round(l * w));
+    }
+    function suggestTotal() {
+      var total = document.getElementById("square_feet");
+      if (!total || total.dataset.user === "1") return;
+      var sum = 0;
+      shots.forEach(function (shot) { sum += parseFloat(shot.square_feet) || 0; });
+      if (walkthrough && parseFloat(walkthrough.square_feet)) sum = parseFloat(walkthrough.square_feet);
+      total.value = sum ? String(Math.round(sum)) : "";
+    }
+    var sizeField = document.getElementById("square_feet");
+    if (sizeField) sizeField.addEventListener("input", function () { sizeField.dataset.user = sizeField.value ? "1" : ""; });
+    function card(item, kind) {
+      var box = document.createElement("div");
+      box.className = "shot-card";
+      var preview = kind === "video" ? document.createElement("video") : document.createElement("img");
+      preview.src = item.url;
+      if (kind === "video") { preview.controls = true; preview.muted = true; }
+      var fields = document.createElement("div");
+      fields.innerHTML = '<label>Area</label><input data-label placeholder="Kitchen, office, hallway">' +
+        '<div class="shot-fields"><div><label>Length (ft)</label><input data-length inputmode="decimal" placeholder="16"></div><div><label>Width (ft)</label><input data-width inputmode="decimal" placeholder="20"></div><div><label>Square footage</label><input data-sq inputmode="decimal" placeholder="320"></div></div>' +
+        '<button class="btn remove" type="button">Remove</button>';
+      box.appendChild(preview);
+      box.appendChild(fields);
+      var length = fields.querySelector("[data-length]");
+      var width = fields.querySelector("[data-width]");
+      var sq = fields.querySelector("[data-sq]");
+      var label = fields.querySelector("[data-label]");
+      function sync(fromSize) {
+        item.label = label.value;
+        item.length = length.value;
+        item.width = width.value;
+        if (!fromSize) {
+          var calculated = areaFrom(length.value, width.value);
+          if (calculated) { item.square_feet = calculated; sq.value = calculated; }
+          else item.square_feet = sq.value;
+        } else {
+          item.square_feet = sq.value;
+        }
+        suggestTotal();
+      }
+      length.addEventListener("input", function () { sync(false); });
+      width.addEventListener("input", function () { sync(false); });
+      sq.addEventListener("input", function () { sync(true); });
+      label.addEventListener("input", function () { item.label = label.value; });
+      fields.querySelector(".remove").addEventListener("click", function () {
+        URL.revokeObjectURL(item.url);
+        if (kind === "video") walkthrough = null;
+        else shots = shots.filter(function (shot) { return shot !== item; });
+        box.remove();
+        suggestTotal();
+      });
+      return box;
+    }
+    function addPhotos(list) {
+      Array.prototype.forEach.call(list, function (file) {
+        if (shots.length >= 6) { showNote("Please send 6 photos or fewer."); return; }
+        if (file.size > 8 * 1024 * 1024) { showNote("Each photo must be 8 MB or smaller."); return; }
+        var item = { file: file, label: "", length: "", width: "", square_feet: "", url: URL.createObjectURL(file) };
+        shots.push(item);
+        var node = card(item, "photo");
+        document.getElementById("photo-list").appendChild(node);
+        node.querySelector("[data-length]").focus();
+      });
+    }
+    function addVideo(file) {
+      if (!file) return;
+      if (file.size > 25 * 1024 * 1024) { showNote("The video must be 25 MB or smaller. A short walk-through is enough."); return; }
+      if (walkthrough) URL.revokeObjectURL(walkthrough.url);
+      walkthrough = { file: file, label: "", length: "", width: "", square_feet: "", url: URL.createObjectURL(file) };
+      var list = document.getElementById("video-list");
+      list.innerHTML = "";
+      var node = card(walkthrough, "video");
+      list.appendChild(node);
+      node.querySelector("[data-length]").focus();
+    }
+    document.getElementById("take-photo-btn").addEventListener("click", function () { document.getElementById("take-photo").click(); });
+    document.getElementById("pick-photos-btn").addEventListener("click", function () { document.getElementById("pick-photos").click(); });
+    document.getElementById("record-video-btn").addEventListener("click", function () { document.getElementById("record-video").click(); });
+    document.getElementById("pick-video-btn").addEventListener("click", function () { document.getElementById("pick-video").click(); });
+    document.getElementById("take-photo").addEventListener("change", function (event) { addPhotos(event.target.files); event.target.value = ""; });
+    document.getElementById("pick-photos").addEventListener("change", function (event) { addPhotos(event.target.files); event.target.value = ""; });
+    document.getElementById("record-video").addEventListener("change", function (event) { addVideo(event.target.files[0]); event.target.value = ""; });
+    document.getElementById("pick-video").addEventListener("change", function (event) { addVideo(event.target.files[0]); event.target.value = ""; });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var note = document.querySelector("#form-note");
       var submitBtn = form.querySelector('button[type="submit"]');
       var defaultLabel = submitBtn ? submitBtn.textContent : "Send request";
-
-      function showNote(text) {
-        if (!note) return;
-        note.textContent = text;
-        note.hidden = false;
-      }
 
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending...";
       }
+      if (note) note.hidden = true;
 
-      var formData = new FormData(form);
+      var body = new FormData(form);
+      shots.forEach(function (shot) { body.append("photos", shot.file); });
+      if (walkthrough) body.append("video", walkthrough.file);
+      body.set("photo_notes", JSON.stringify(shots.map(function (shot) {
+        return { label: shot.label, length: shot.length, width: shot.width, square_feet: shot.square_feet };
+      })));
+      body.set("video_note", JSON.stringify(walkthrough ? { label: walkthrough.label, length: walkthrough.length, width: walkthrough.width, square_feet: walkthrough.square_feet } : {}));
 
-      fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
-      })
-        .then(function (res) { return res.json(); })
+      fetch("/api/v1/quotes", { method: "POST", body: body })
+        .then(function (res) { return res.json().then(function (body) { return { ok: res.ok, body: body }; }); })
         .then(function (result) {
-          if (result.success) {
+          if (result.ok) {
             showNote("Thanks — your request has been sent. We'll get back to you within one business day.");
             form.reset();
+            shots.forEach(function (shot) { URL.revokeObjectURL(shot.url); });
+            if (walkthrough) URL.revokeObjectURL(walkthrough.url);
+            shots = [];
+            walkthrough = null;
+            document.getElementById("photo-list").innerHTML = "";
+            document.getElementById("video-list").innerHTML = "";
+            if (sizeField) delete sizeField.dataset.user;
           } else {
-            showNote("Something went wrong sending your request. Please call +1 (204) 698-1133 or email clean@mastercleaning.ca and we'll get back to you within one business day.");
+            showNote((result.body && result.body.error) || "Something went wrong sending your request. Please call +1 (204) 698-1133 and we'll get back to you within one business day.");
           }
         })
         .catch(function () {
-          showNote("Something went wrong sending your request. Please call +1 (204) 698-1133 or email clean@mastercleaning.ca and we'll get back to you within one business day.");
+          showNote("Something went wrong sending your request. Please call +1 (204) 698-1133 and we'll get back to you within one business day.");
         })
         .finally(function () {
           if (submitBtn) {

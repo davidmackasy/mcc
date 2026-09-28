@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apply | Master Commercial Cleaning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/recruitment-assets/public.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="/"><img class="brand-logo" src="/images/logo.png" alt="Master Commercial Cleaning"></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/services.html">Services</a></li>
+        <li><a href="/industries.html">Industries</a></li>
+        <li><a href="/careers" aria-current="page">Careers</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
+      <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
+    </nav>
+  </div>
+</header>
+<main class="section">
+  <div class="wrap" style="max-width:760px">
+    <span class="eyebrow">Application</span>
+    <h1>Apply</h1>
+    <div id="applying" class="panel" hidden></div>
+    <p id="step-label" class="help"></p>
+    <div id="form-error" class="error" hidden></div>
+    <form id="apply-form" novalidate>
+      <div class="honeypot" aria-hidden="true"><label>Company website<input name="company_website" tabindex="-1" autocomplete="off"></label></div>
+      <section data-step="1">
+        <h2>Job selection</h2>
+        <div id="job-picker" class="field"><label for="job_id">Position</label><select id="job_id" name="job_id"></select></div>
+      </section>
+      <section data-step="2" hidden>
+        <h2>Personal information</h2>
+        <div class="field"><label for="first_name">First name</label><input id="first_name" name="first_name" required autocomplete="given-name"></div>
+        <div class="field"><label for="last_name">Last name</label><input id="last_name" name="last_name" required autocomplete="family-name"></div>
+        <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" required autocomplete="email"></div>
+        <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel"></div>
+        <div class="field"><label for="city">City</label><input id="city" name="city" required autocomplete="address-level2"></div>
+        <div class="field"><label for="province">Province</label>
+          <select id="province" name="province" required>
+            <option value="Manitoba" selected>Manitoba</option>
+            <option>Alberta</option><option>British Columbia</option><option>New Brunswick</option><option>Newfoundland and Labrador</option><option>Nova Scotia</option><option>Ontario</option><option>Prince Edward Island</option><option>Quebec</option><option>Saskatchewan</option><option>Northwest Territories</option><option>Nunavut</option><option>Yukon</option>
+          </select>
+        </div>
+        <div class="field"><label for="street_address">Street address <span class="help">(optional)</span></label><input id="street_address" name="street_address" autocomplete="street-address"></div>
+        <div class="field"><label for="postal_code">Postal code <span class="help">(optional)</span></label><input id="postal_code" name="postal_code" autocomplete="postal-code"></div>
+      </section>
+      <section data-step="3" hidden>
+        <h2>Availability</h2>
+        <div class="field"><label for="start_date">When can you start?</label><input id="start_date" name="start_date" type="date"></div>
+        <p>Availability</p>
+        <div class="day-grid" id="days"></div>
+        <div class="field"><label for="employment_preference">Preferred employment</label>
+          <select id="employment_preference" name="employment_preference"><option value="any">Any</option><option value="full-time">Full-Time</option><option value="part-time">Part-Time</option><option value="casual">Casual</option></select>
+        </div>
+        <div class="yesno"><span>Are you available on weekends?</span>
+          <label><input type="radio" name="weekends" value="yes"> Yes</label>
+          <label><input type="radio" name="weekends" value="no"> No</label>
+        </div>
+        <div class="yesno"><span>Are you available evenings?</span>
+          <label><input type="radio" name="evenings" value="yes"> Yes</label>
+          <label><input type="radio" name="evenings" value="no"> No</label>
+        </div>
+      </section>
+      <section data-step="4" hidden>
+        <h2>Cleaning experience</h2>
+        <div class="yesno"><span>Do you have professional cleaning experience?</span>
+          <label><input type="radio" name="has_cleaning_experience" value="yes"> Yes</label>
+          <label><input type="radio" name="has_cleaning_experience" value="no"> No</label>
+        </div>
+        <div id="experience-extra" hidden>
+          <div class="field"><label for="years_experience">Years of experience</label>
+            <select id="years_experience" name="years_experience"><option value="">Select</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>5+ years</option></select>
+          </div>
+          <div class="field"><label for="experience_description">Describe your cleaning experience</label><textarea id="experience_description" name="experience_description" rows="5"></textarea><p class="help">Commercial, offices, retail, restaurants, industrial, residential, floor care, or strip and wax.</p></div>
+        </div>
+        <h3>Previous employment <span class="help">(optional)</span></h3>
+        <label class="yesno"><input type="checkbox" name="no_previous_employment" id="no_previous_employment"> No previous employment</label>
+        <div id="previous-fields">
+          <div class="field"><label for="previous_employer">Previous employer</label><input id="previous_employer" name="previous_employer"></div>
+          <div class="field"><label for="previous_position">Position</label><input id="previous_position" name="previous_position"></div>
+          <div class="field"><label for="previous_employment_length">Length of employment</label><input id="previous_employment_length" name="previous_employment_length"></div>
+        </div>
+      </section>
+      <section data-step="5" hidden>
+        <h2>Transportation</h2>
+        <div class="yesno"><span>Do you have a valid driver's licence?</span><label><input type="radio" name="drivers_license" value="yes"> Yes</label><label><input type="radio" name="drivers_license" value="no"> No</label></div>
+        <div id="licence-expiry" class="field" hidden><label for="drivers_license_expiry">Licence expiry <span class="help">(optional)</span></label><input id="drivers_license_expiry" name="drivers_license_expiry" type="date"></div>
+        <div class="yesno"><span>Do you have access to reliable transportation?</span><label><input type="radio" name="reliable_transportation" value="yes"> Yes</label><label><input type="radio" name="reliable_transportation" value="no"> No</label></div>
+        <div class="yesno"><span>Are you willing to travel between work locations?</span><label><input type="radio" name="willing_to_travel" value="yes"> Yes</label><label><input type="radio" name="willing_to_travel" value="no"> No</label></div>
+        <div class="yesno"><span>Are you able to perform the essential duties described in this job posting, with or without reasonable accommodation?</span><label><input type="radio" name="able_to_perform_duties" value="yes" required> Yes</label><label><input type="radio" name="able_to_perform_duties" value="no"> No</label></div>
+      </section>
+      <section data-step="6" hidden>
+        <h2>Work authorization</h2>
+        <div class="field"><label for="work_authorization">What is your current authorization to work in Canada?</label>
+          <select id="work_authorization" name="work_authorization" required>
+            <option value="">Select</option>
+            <option value="citizen">Canadian Citizen</option>
+            <option value="permanent_resident">Permanent Resident</option>
+            <option value="work_permit">Valid Work Permit</option>
+            <option value="study_permit">Valid Study Permit with work authorization</option>
+            <option value="other">Other authorization to work in Canada</option>
+            <option value="sponsorship">I require sponsorship</option>
+            <option value="unspecified">Prefer not to specify at this stage</option>
+          </select>
+        </div>
+        <div class="yesno"><span>Are you legally authorized to work in Canada for this position?</span><label><input type="radio" name="eligible_to_work" value="yes" required> Yes</label><label><input type="radio" name="eligible_to_work" value="no"> No</label></div>
+        <div id="permit-fields" hidden>
+          <div class="field"><label for="work_permit_type">Work permit type</label>
+            <select id="work_permit_type" name="work_permit_type"><option value="">Select</option><option value="open">Open Work Permit</option><option value="employer">Employer-Specific Work Permit</option><option value="pgwp">Post-Graduation Work Permit</option><option value="spousal">Spousal Open Work Permit</option><option value="other">Other</option></select>
+          </div>
+          <div class="field"><label for="work_permit_expiry">Work permit expiry date</label><input id="work_permit_expiry" name="work_permit_expiry" type="date"></div>
+        </div>
+        <div id="study-fields" hidden>
+          <div class="field"><label for="study_permit_expiry">Study permit expiry date</label><input id="study_permit_expiry" name="study_permit_expiry" type="date"></div>
+        </div>
+        <div class="field"><label for="authorization_notes">Additional information about your work availability or authorization <span class="help">(optional)</span></label><textarea id="authorization_notes" name="authorization_notes" rows="3"></textarea></div>
+      </section>
+      <section data-step="7" hidden>
+        <h2>Documents</h2>
+        <p class="help">PDF, DOC, or DOCX for resumes and letters. Photos may be JPG or PNG. 10 MB each. Do not upload a SIN, banking, tax, or passport document.</p>
+        <div class="field" id="resume-field"><label for="resume">Upload Resume / CV</label><input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx"><p class="file-status" data-for="resume"></p></div>
+        <div class="field" id="cover-file-field"><label for="cover_letter_file">Upload Cover Letter</label><input id="cover_letter_file" name="cover_letter_file" type="file" accept=".pdf,.doc,.docx"><p class="help">Or write one below. You do not need both.</p><p class="file-status" data-for="cover_letter_file"></p></div>
+        <div class="field"><label for="cover_letter">Write cover letter</label><textarea id="cover_letter" name="cover_letter" rows="5"></textarea></div>
+        <div class="field" id="permit-upload" hidden><label for="work_permit">Upload Work Permit</label><input id="work_permit" name="work_permit" type="file" accept=".pdf,.jpg,.jpeg,.png"><p class="file-status" data-for="work_permit"></p></div>
+        <div class="field" id="study-upload" hidden><label for="study_permit">Upload Study Permit</label><input id="study_permit" name="study_permit" type="file" accept=".pdf,.jpg,.jpeg,.png"><p class="file-status" data-for="study_permit"></p></div>
+        <div class="field" id="licence-upload" hidden><label for="drivers_license_file">Upload Driver's Licence</label><input id="drivers_license_file" name="drivers_license_file" type="file" accept=".pdf,.jpg,.jpeg,.png"><p class="file-status" data-for="drivers_license_file"></p></div>
+        <h3>Certifications</h3>
+        <div id="certificates"></div>
+        <button class="btn btn-ghost" type="button" id="add-certificate">+ Add Certificate</button>
+        <h3>Additional documents</h3>
+        <div id="additional-docs"></div>
+        <button class="btn btn-ghost" type="button" id="add-document">+ Add Document</button>
+      </section>
+      <section data-step="8" hidden>
+        <h2>References <span class="help">(optional, up to 2)</span></h2>
+        <div class="panel">
+          <div class="field"><label>Name</label><input name="ref1_name"></div>
+          <div class="field"><label>Relationship</label><input name="ref1_relationship"></div>
+          <div class="field"><label>Phone</label><input name="ref1_phone" type="tel"></div>
+          <div class="field"><label>Email</label><input name="ref1_email" type="email"></div>
+        </div>
+        <div class="panel" style="margin-top:12px">
+          <div class="field"><label>Name</label><input name="ref2_name"></div>
+          <div class="field"><label>Relationship</label><input name="ref2_relationship"></div>
+          <div class="field"><label>Phone</label><input name="ref2_phone" type="tel"></div>
+          <div class="field"><label>Email</label><input name="ref2_email" type="email"></div>
+        </div>
+      </section>
+      <section data-step="9" hidden>
+        <h2>Review and submit</h2>
+        <div id="review" class="review-grid"></div>
+        <label class="yesno"><input type="checkbox" name="certified" required> I certify that the information provided in this application is accurate and complete to the best of my knowledge.</label>
+        <label class="yesno"><input type="checkbox" name="consent_contact" required> I consent to Master Commercial Cleaning contacting me regarding employment opportunities.</label>
+      </section>
+      <div class="form-actions">
+        <button class="btn btn-ghost" type="button" id="back" hidden>Back</button>
+        <button class="btn" type="button" id="next">Continue</button>
+        <button class="btn" type="submit" id="submit" hidden>Submit Application</button>
+      </div>
+    </form>
+    <div id="success" class="empty" hidden>
+      <h2>Application Submitted</h2>
+      <p id="success-copy"></p>
+      <p>Application reference number</p>
+      <h3 id="reference"></h3>
+      <a class="btn" href="/careers">Back to careers</a>
+    </div>
+  </div>
+</main>
+<script src="/recruitment-assets/apply.js"></script>
+</body>
+</html>
