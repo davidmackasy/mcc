@@ -237,7 +237,7 @@
       picker.hidden = false;
     } else if (requested) {
       document.getElementById("applying").hidden = false;
-      document.getElementById("applying").innerHTML = "<h2>This position is no longer available.</h2><p><a href='/careers'>View Current Opportunities</a></p>";
+      document.getElementById("applying").innerHTML = "<h2>This position is no longer available.</h2><p><a href='/careers.html'>View Current Opportunities</a></p>";
       form.hidden = true;
       return;
     } else {

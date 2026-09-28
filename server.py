@@ -224,7 +224,7 @@ class Handler(BaseHTTPRequestHandler):
         self.route_api("DELETE", parsed.path.rstrip("/") or "/", {}, None)
 
     def route_page(self, path):
-        if path in ("/careers", "/jobs"):
+        if path in ("/careers", "/careers.html", "/jobs"):
             self.send_html(self.careers_page())
             return
         if path in PAGES:

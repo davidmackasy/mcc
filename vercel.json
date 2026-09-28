@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/careers", "destination": "/careers.html", "permanent": false },
+    { "source": "/recruitment/web/careers.html", "destination": "/careers.html", "permanent": false }
+  ]
+}

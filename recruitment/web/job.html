@@ -18,7 +18,7 @@
         <li><a href="/about.html">About</a></li>
         <li><a href="/services.html">Services</a></li>
         <li><a href="/industries.html">Industries</a></li>
-        <li><a href="/careers" aria-current="page">Careers</a></li>
+        <li><a href="/careers.html" aria-current="page">Careers</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
       <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
@@ -29,7 +29,7 @@
 <main class="section">
   <div class="wrap" id="job"></div>
 </main>
-<footer class="site-footer"><div class="wrap"><a href="/careers">View current opportunities</a></div></footer>
+<footer class="site-footer"><div class="wrap"><a href="/careers.html">View current opportunities</a></div></footer>
 <script>
 document.querySelector(".nav-toggle").addEventListener("click", function () {
   document.querySelector(".site-header").classList.toggle("nav-open");
@@ -59,7 +59,7 @@ fetch("/api/v1/jobs/" + encodeURIComponent(id)).then(function (res) {
     (job.accepting_applications ? '<a class="btn" href="/apply?job=' + encodeURIComponent(job.job_id) + '">Apply Now</a>' : '<p>Applications are closed for this position.</p>') +
     '</aside></div>';
 }).catch(function () {
-  root.innerHTML = '<div class="empty"><h1>This position is no longer available.</h1><p>It may have been filled or closed.</p><a class="btn" href="/careers">View Current Opportunities</a></div>';
+  root.innerHTML = '<div class="empty"><h1>This position is no longer available.</h1><p>It may have been filled or closed.</p><a class="btn" href="/careers.html">View Current Opportunities</a></div>';
 });
 </script>
 </body>

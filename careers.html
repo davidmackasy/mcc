@@ -6,20 +6,20 @@
 <title>Join Our Team | Master Commercial Cleaning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/recruitment-assets/public.css">
+<link rel="stylesheet" href="careers.css">
 </head>
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a href="/"><img class="brand-logo" src="/images/logo.png" alt="Master Commercial Cleaning"></a>
+    <a href="index.html"><img class="brand-logo" src="images/logo.png" alt="Master Commercial Cleaning"></a>
     <nav class="main-nav">
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/services.html">Services</a></li>
-        <li><a href="/industries.html">Industries</a></li>
-        <li><a href="/careers.html" aria-current="page">Careers</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="industries.html">Industries</a></li>
+        <li><a href="careers.html" aria-current="page">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
       <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
       <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
@@ -47,7 +47,15 @@
           <option value="contract">Contract</option>
         </select>
       </div>
-      <div id="jobs" class="job-list"><!--JOBS--></div>
+      <div id="jobs" class="job-list">
+        <article class="job-card" id="JOB-1001">
+          <h2>Evening Commercial Cleaner</h2>
+          <div class="meta"><span class="chip">Oakbank</span><span class="chip">Part-Time</span><span class="chip">8:00 PM – 12:00 AM</span><span class="chip">$18/hour</span></div>
+          <p>Clean offices after hours.</p>
+          <p class="help">Posted 2026-09-25</p>
+          <a class="btn" href="mailto:gift.delvin@mastercleaning.ca,davd.maluti@mastercleaning.ca?subject=Application%20for%20Evening%20Commercial%20Cleaner%20(JOB-1001)">Apply</a>
+        </article>
+      </div>
       <div class="panel ask-box">
         <h2>Ask before you apply</h2>
         <p>Have a question about a position, the schedule, or whether we're hiring? You don't need to complete an application.</p>
@@ -74,7 +82,7 @@
     </div>
   </section>
 </main>
-<footer class="site-footer"><div class="wrap">Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="/privacy-policy.html">Privacy Policy</a></div></footer>
+<footer class="site-footer"><div class="wrap">Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="privacy-policy.html">Privacy Policy</a></div></footer>
 <script>
 document.querySelector(".nav-toggle").addEventListener("click", function () {
   document.querySelector(".site-header").classList.toggle("nav-open");
@@ -86,34 +94,35 @@ function load() {
   var params = new URLSearchParams();
   if (locationFilter.value) params.set("location", locationFilter.value);
   if (typeFilter.value) params.set("type", typeFilter.value);
-  fetch("/api/v1/jobs?" + params.toString()).then(function (res) { return res.json(); }).then(function (data) {
+  fetch("/api/v1/jobs?" + params.toString()).then(function (res) {
+    if (!res.ok) throw new Error("unavailable");
+    return res.json();
+  }).then(function (data) {
     var jobs = data.jobs || [];
     if (!jobs.length) {
       jobsEl.innerHTML = '<div class="empty"><h2>No Open Positions Right Now</h2><p>We don\'t currently have any positions available. Please check back again soon.</p></div>';
       return;
     }
     jobsEl.innerHTML = jobs.map(function (job) {
-      return '<article class="job-card"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
-        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/jobs/' + encodeURIComponent(job.job_id) + '">View Job</a></article>';
+      return '<article class="job-card" id="' + escapeHtml(job.job_id) + '"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
+        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/jobs/' + encodeURIComponent(job.job_id) + '">View Job</a></article>';
     }).join("");
-  }).catch(function () {
-    jobsEl.innerHTML = '<div class="empty"><h2>Jobs are unavailable</h2><p>Please refresh the page in a moment.</p></div>';
-  });
+  }).catch(function () {});
 }
 function chip(text) { return text ? '<span class="chip">' + escapeHtml(text) + '</span>' : ''; }
 function escapeHtml(value) { return String(value || "").replace(/[&<>"']/g, function (ch) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]; }); }
-fetch("/api/v1/locations").then(function (res) { return res.json(); }).then(function (data) {
+fetch("/api/v1/locations").then(function (res) { return res.ok ? res.json() : { locations: [] }; }).then(function (data) {
   (data.locations || []).forEach(function (loc) {
     var option = document.createElement("option");
     option.value = loc.name;
     option.textContent = loc.name;
     locationFilter.appendChild(option);
   });
-});
+}).catch(function () {});
 locationFilter.addEventListener("change", load);
 typeFilter.addEventListener("change", load);
 load();
-fetch("/api/v1/jobs").then(function (res) { return res.json(); }).then(function (data) {
+fetch("/api/v1/jobs").then(function (res) { return res.ok ? res.json() : { jobs: [] }; }).then(function (data) {
   var select = document.getElementById("ask-job");
   (data.jobs || []).forEach(function (job) {
     var option = document.createElement("option");
@@ -121,7 +130,7 @@ fetch("/api/v1/jobs").then(function (res) { return res.json(); }).then(function 
     option.textContent = job.title + " — " + job.location;
     select.appendChild(option);
   });
-});
+}).catch(function () {});
 var askDialog = document.getElementById("ask-dialog");
 document.getElementById("open-ask").addEventListener("click", function () { askDialog.showModal(); });
 document.getElementById("close-ask").addEventListener("click", function () { askDialog.close(); });
@@ -135,11 +144,14 @@ document.getElementById("ask-form").addEventListener("submit", function (event) 
   }).then(function (result) {
     if (!result.ok) {
       error.hidden = false;
-      error.textContent = (result.body && result.body.error) || "Could not send your question.";
+      error.textContent = (result.body && result.body.error) || "Please email gift.delvin@mastercleaning.ca and davd.maluti@mastercleaning.ca.";
       return;
     }
     form.hidden = true;
     document.getElementById("ask-done").hidden = false;
+  }).catch(function () {
+    error.hidden = false;
+    error.textContent = "Please email gift.delvin@mastercleaning.ca and davd.maluti@mastercleaning.ca.";
   });
 });
 </script>
