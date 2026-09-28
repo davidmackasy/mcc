@@ -61,17 +61,22 @@
     render();
   }
   function loginView() {
-    app.innerHTML = '<form class="login" id="login"><h1>Recruitment</h1><p>Sign in to manage jobs and applications.</p><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><p class="error" id="err" hidden></p><button type="submit">Sign in</button></form>';
+    app.innerHTML = '<div class="login-screen"><form class="login" id="login"><img src="/images/logo.png" alt="Master Commercial Cleaning"><span class="eyebrow">Recruitment</span><h1>Sign in</h1><p class="lede">Manage jobs, applications, and questions from one place.</p><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><p class="error" id="err" hidden></p><button type="submit">Sign in</button></form></div>';
     document.getElementById("login").onsubmit = function (event) {
       event.preventDefault();
       var data = Object.fromEntries(new FormData(event.target).entries());
+      var err = document.getElementById("err");
+      err.hidden = true;
       api("/admin/login", { method: "POST", body: data }).then(function (res) {
         if (!res.ok) {
-          document.getElementById("err").hidden = false;
-          document.getElementById("err").textContent = (res.data && res.data.error) || "Sign in failed.";
+          err.hidden = false;
+          err.textContent = (res.data && res.data.error) || "Those credentials were not recognized.";
           return;
         }
         go("/admin/recruitment");
+      }).catch(function () {
+        err.hidden = false;
+        err.textContent = "Sign in could not be completed. Please try again.";
       });
     };
   }
@@ -185,6 +190,10 @@
   }
   function dashboardView() {
     api("/admin/summary").then(function (res) {
+      if (!res.ok || !res.data || !res.data.summary) {
+        shell("/admin/recruitment", "<h1>Overview</h1><p class='error'>The overview could not be loaded. Please refresh the page.</p>");
+        return;
+      }
       var summary = res.data.summary;
       var alert = "";
       if (summary.new_applications || summary.new_inquiries || summary.new_quotes) {

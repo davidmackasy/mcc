@@ -430,7 +430,10 @@ def migrate(conn):
             message TEXT NOT NULL,
             job_public_id TEXT,
             status TEXT NOT NULL DEFAULT 'new',
-            created_at TEXT NOT NULL
+            created_at TEXT NOT NULL,
+            attachment_key TEXT,
+            attachment_name TEXT,
+            attachment_type TEXT
         );
         CREATE TABLE IF NOT EXISTS document_links (
             token TEXT PRIMARY KEY,
@@ -440,6 +443,10 @@ def migrate(conn):
         );
         """
     )
+    add("inquiries", "attachment_key", "TEXT")
+    add("inquiries", "attachment_name", "TEXT")
+    add("inquiries", "attachment_type", "TEXT")
+    add("quote_files", "note", "TEXT")
 
 
 def company_id(conn):

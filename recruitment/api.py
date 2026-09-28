@@ -1,11 +1,14 @@
 """Recruitment API handlers. Returns (status, payload_dict)."""
 
 import base64
+import hashlib
+import hmac
 import json
 import os
 import re
 import secrets
 import smtplib
+import time
 from datetime import date, datetime, timedelta
 from email.message import EmailMessage
 from urllib.error import HTTPError, URLError
@@ -96,9 +99,40 @@ def rate_limited(ip):
     return False
 
 
+def _session_secret():
+    return os.environ.get("MCC_SESSION_SECRET") or "mcc-recruitment-session"
+
+
+def issue_session(username):
+    payload = base64.urlsafe_b64encode(json.dumps({"u": username, "exp": int(time.time()) + 12 * 3600}).encode()).decode().rstrip("=")
+    signature = hmac.new(_session_secret().encode(), payload.encode(), hashlib.sha256).hexdigest()
+    return payload + "." + signature
+
+
+def read_session(token):
+    if not token or "." not in token:
+        return None
+    payload, signature = token.rsplit(".", 1)
+    expected = hmac.new(_session_secret().encode(), payload.encode(), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(expected, signature):
+        return None
+    try:
+        data = json.loads(base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4)))
+    except (ValueError, json.JSONDecodeError):
+        return None
+    if int(data.get("exp") or 0) < time.time():
+        return None
+    return data.get("u") or None
+
+
 def session_user(conn, token):
     if not token:
         return None
+    username = read_session(token)
+    if username:
+        row = conn.execute("SELECT * FROM admin_users WHERE username = ?", (username,)).fetchone()
+        if row:
+            return row
     row = conn.execute(
         """SELECT admin_users.* FROM sessions
            JOIN admin_users ON admin_users.id = sessions.admin_user_id
@@ -114,14 +148,7 @@ def login(username, password):
         row = conn.execute("SELECT * FROM admin_users WHERE username = ?", (sanitize_text(username, 80),)).fetchone()
         if not row or not db.verify_password(password or "", row["password_salt"], row["password_hash"]):
             return None
-        token = secrets.token_urlsafe(32)
-        expires = (datetime.now() + timedelta(hours=12)).replace(microsecond=0).isoformat()
-        conn.execute(
-            "INSERT INTO sessions (token, admin_user_id, created_at, expires_at) VALUES (?, ?, ?, ?)",
-            (token, row["id"], db.now_iso(), expires),
-        )
-        conn.commit()
-        return token
+        return issue_session(row["username"])
     finally:
         conn.close()
 

@@ -339,7 +339,8 @@ class Handler(BaseHTTPRequestHandler):
             if not token:
                 self.send_json(401, {"error": "Those credentials were not recognized."})
                 return
-            self.send_json(200, {"ok": True}, [("Set-Cookie", f"mcc_admin={token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=43200")])
+            secure = "; Secure" if os.environ.get("VERCEL") else ""
+            self.send_json(200, {"ok": True}, [("Set-Cookie", f"mcc_admin={token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=43200{secure}")])
             return
         if method == "POST" and route == "/admin/logout":
             api.logout(cookie_token(self.headers.get("Cookie")))
