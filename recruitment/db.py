@@ -8,12 +8,13 @@ import sqlite3
 from datetime import date, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(ROOT, "data")
+DATA_DIR = "/tmp/mcc-data" if os.environ.get("VERCEL") else os.path.join(ROOT, "data")
 DB_PATH = os.path.join(DATA_DIR, "recruitment.sqlite")
 RESUME_DIR = os.path.join(DATA_DIR, "resumes")
 DOC_DIR = os.path.join(DATA_DIR, "documents")
 QUOTE_DIR = os.path.join(DATA_DIR, "quotes")
 OUTBOX_DIR = os.path.join(DATA_DIR, "outbox")
+_PREPARED = False
 
 EMPLOYMENT_TYPES = ("full-time", "part-time", "casual", "temporary", "contract")
 EMPLOYMENT_LABELS = {
@@ -258,18 +259,87 @@ def init_db():
             with open(flag, "w", encoding="utf-8") as handle:
                 handle.write("admin\n")
             print("Recruitment admin login: username admin / password " + password)
-    if conn.execute("SELECT value FROM settings WHERE key = 'recruitment_email'").fetchone() is None:
-        conn.execute(
-            "INSERT INTO settings (key, value) VALUES ('recruitment_email', ?)",
-            ("clean@mastercleaning.ca",),
-        )
+    defaults = {
+        "recruitment_email": "gift.delvin@mastercleaning.ca, davd.maluti@mastercleaning.ca",
+        "quote_email": "clean@mastercleaning.ca",
+        "smtp_host": "smtp.mailgun.org",
+        "smtp_port": "587",
+        "smtp_user": "noreply@mastercleaning.ca",
+        "smtp_from": "Master Commercial Cleaning <noreply@mastercleaning.ca>",
+        "mailgun_domain": "mastercleaning.ca",
+        "mailgun_region": "us",
+    }
+    for key, value in defaults.items():
+        if conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone() is None:
+            conn.execute("INSERT INTO settings (key, value) VALUES (?, ?)", (key, value))
     migrate(conn)
+    seed_open_job(conn)
+    apply_env_settings(conn)
     conn.commit()
     conn.close()
 
 
+def prepare_request():
+    global _PREPARED
+    if _PREPARED:
+        return
+    from recruitment import store
+    store.load(DATA_DIR)
+    init_db()
+    _PREPARED = True
+
+
+def finish_request(method):
+    if (method or "").upper() == "GET" or not os.environ.get("VERCEL"):
+        return
+    from recruitment import store
+    store.save(DATA_DIR)
+
+
+def apply_env_settings(conn):
+    mapping = {
+        "SMTP_HOST": "smtp_host",
+        "SMTP_PORT": "smtp_port",
+        "SMTP_USER": "smtp_user",
+        "SMTP_FROM": "smtp_from",
+        "RECRUITMENT_EMAIL": "recruitment_email",
+        "QUOTE_EMAIL": "quote_email",
+        "MAILGUN_DOMAIN": "mailgun_domain",
+        "MAILGUN_REGION": "mailgun_region",
+    }
+    for env_name, key in mapping.items():
+        value = (os.environ.get(env_name) or "").strip()
+        if value:
+            set_setting(conn, key, value)
+    password = (os.environ.get("SMTP_PASSWORD") or "").strip()
+    if password:
+        set_setting(conn, "smtp_password", password)
+
+
+def seed_open_job(conn):
+    if conn.execute("SELECT id FROM jobs WHERE public_job_id = 'JOB-1001'").fetchone():
+        return
+    company = conn.execute("SELECT id FROM companies WHERE slug = ?", ("master-commercial-cleaning",)).fetchone()
+    location = conn.execute("SELECT id FROM locations WHERE name = 'Oakbank'").fetchone()
+    if not company or not location:
+        return
+    stamp = now_iso()
+    conn.execute(
+        """INSERT INTO jobs (
+            public_job_id, company_id, title, location_id, employment_type, shift_type, shift_description,
+            salary_min, pay_type, show_pay, description, status, accepting_applications, require_cover_letter,
+            views, published_at, created_at, updated_at
+        ) VALUES ('JOB-1001', ?, 'Evening Commercial Cleaner', ?, 'part-time', 'evening', '8:00 PM – 12:00 AM',
+            18, 'hourly', 1, 'Clean offices after hours.', 'open', 1, 0, 0, ?, ?, ?)""",
+        (company["id"], location["id"], stamp, stamp, stamp),
+    )
+
+
 def migrate(conn):
     def add(table, column, ddl):
+        exists = conn.execute("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)).fetchone()
+        if not exists:
+            return
         cols = [row[1] for row in conn.execute("PRAGMA table_info(%s)" % table)]
         if column not in cols:
             conn.execute("ALTER TABLE %s ADD COLUMN %s %s" % (table, column, ddl))

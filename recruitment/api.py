@@ -453,7 +453,7 @@ def mailgun_send(conn, to_addr, subject, body, from_addr, attachments=None):
 
 def send_email(conn, to_addr, subject, body, attachments=None):
     recipients = [part.strip() for part in str(to_addr or "").replace(";", ",").split(",") if part.strip()]
-    from_addr = db.setting(conn, "smtp_from", "") or "noreply@mastercleaning.ca"
+    from_addr = (os.environ.get("SMTP_FROM") or "").strip() or db.setting(conn, "smtp_from", "") or "noreply@mastercleaning.ca"
     message = EmailMessage()
     message["Subject"] = subject
     message["From"] = from_addr
@@ -470,15 +470,15 @@ def send_email(conn, to_addr, subject, body, attachments=None):
     mailed = mailgun_send(conn, ", ".join(recipients), subject, body, from_addr, attachments)
     if mailed is not None:
         return mailed
-    host = db.setting(conn, "smtp_host", "") or ""
+    host = (os.environ.get("SMTP_HOST") or "").strip() or db.setting(conn, "smtp_host", "") or ""
     if not host:
         return False
     try:
-        port = int(db.setting(conn, "smtp_port", "587") or "587")
+        port = int((os.environ.get("SMTP_PORT") or "").strip() or db.setting(conn, "smtp_port", "587") or "587")
         with smtplib.SMTP(host, port, timeout=20) as smtp:
             smtp.starttls()
-            user = db.setting(conn, "smtp_user", "") or ""
-            password = db.setting(conn, "smtp_password", "") or ""
+            user = (os.environ.get("SMTP_USER") or "").strip() or db.setting(conn, "smtp_user", "") or ""
+            password = (os.environ.get("SMTP_PASSWORD") or "").strip() or db.setting(conn, "smtp_password", "") or ""
             if user:
                 smtp.login(user, password)
             smtp.send_message(message, to_addrs=recipients)
@@ -634,7 +634,7 @@ def submit_application(data, files, ip):
             (app_id, stamp),
         )
         location = row["location_name"] or ""
-        admin_email = db.setting(conn, "recruitment_email", "clean@mastercleaning.ca")
+        admin_email = (os.environ.get("RECRUITMENT_EMAIL") or "").strip() or db.setting(conn, "recruitment_email", "gift.delvin@mastercleaning.ca, davd.maluti@mastercleaning.ca")
         link = f"/admin/recruitment/applications/{number}"
         send_email(
             conn,

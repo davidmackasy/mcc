@@ -1,6 +1,18 @@
 {
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/admin", "destination": "/recruitment/web/admin.html" },
+    { "source": "/admin/(.*)", "destination": "/recruitment/web/admin.html" },
+    { "source": "/recruitment-assets/(.*)", "destination": "/recruitment/web/$1" }
+  ],
   "redirects": [
     { "source": "/careers", "destination": "/careers.html", "permanent": false },
-    { "source": "/recruitment/web/careers.html", "destination": "/careers.html", "permanent": false }
+    { "source": "/recruitment/web/careers.html", "destination": "/careers.html", "permanent": false },
+    { "source": "/apply", "destination": "/apply.html", "permanent": false }
   ]
 }

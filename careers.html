@@ -53,7 +53,7 @@
           <div class="meta"><span class="chip">Oakbank</span><span class="chip">Part-Time</span><span class="chip">8:00 PM – 12:00 AM</span><span class="chip">$18/hour</span></div>
           <p>Clean offices after hours.</p>
           <p class="help">Posted 2026-09-25</p>
-          <a class="btn" href="mailto:gift.delvin@mastercleaning.ca,davd.maluti@mastercleaning.ca?subject=Application%20for%20Evening%20Commercial%20Cleaner%20(JOB-1001)">Apply</a>
+          <a class="btn" href="apply.html?job=JOB-1001">Apply</a>
         </article>
       </div>
       <div class="panel ask-box">
@@ -105,7 +105,7 @@ function load() {
     }
     jobsEl.innerHTML = jobs.map(function (job) {
       return '<article class="job-card" id="' + escapeHtml(job.job_id) + '"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
-        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/jobs/' + encodeURIComponent(job.job_id) + '">View Job</a></article>';
+        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="apply.html?job=' + encodeURIComponent(job.job_id) + '">Apply</a></article>';
     }).join("");
   }).catch(function () {});
 }

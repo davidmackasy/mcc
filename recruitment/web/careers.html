@@ -94,7 +94,7 @@ function load() {
     }
     jobsEl.innerHTML = jobs.map(function (job) {
       return '<article class="job-card"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
-        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/jobs/' + encodeURIComponent(job.job_id) + '">View Job</a></article>';
+        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/apply.html?job=' + encodeURIComponent(job.job_id) + '">Apply</a></article>';
     }).join("");
   }).catch(function () {
     jobsEl.innerHTML = '<div class="empty"><h2>Jobs are unavailable</h2><p>Please refresh the page in a moment.</p></div>';
