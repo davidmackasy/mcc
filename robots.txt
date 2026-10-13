@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+Sitemap: https://mastercleaning.ca/sitemap.xml
