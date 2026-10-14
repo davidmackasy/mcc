@@ -5,4 +5,53 @@ Disallow: /api/
 Disallow: /apply.html
 Disallow: /recruitment/
 
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /apply.html
+Disallow: /recruitment/
+
 Sitemap: https://mastercleaning.ca/sitemap.xml
