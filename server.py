@@ -9,7 +9,7 @@ import socket
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
-from recruitment import api, db, documents
+from recruitment import api, articles, db, documents
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 WEB = os.path.join(ROOT, "recruitment", "web")
@@ -35,6 +35,24 @@ PAGES = {
     "/jobs": "careers.html",
     "/apply": "apply.html",
 }
+
+
+def load_local_env():
+    path = os.path.join(ROOT, ".env")
+    if not os.path.isfile(path):
+        return
+    with open(path, encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            if key and key not in os.environ:
+                os.environ[key] = value.strip().strip('"').strip("'")
+
+
+load_local_env()
 
 
 def cookie_token(header):
@@ -75,8 +93,14 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
-    def send_html(self, text):
-        self.send_bytes(200, text.encode("utf-8"), "text/html; charset=utf-8")
+    def send_html(self, text, status=200):
+        self.send_bytes(status, text.encode("utf-8"), "text/html; charset=utf-8")
+
+    def origin(self):
+        host = (self.headers.get("X-Forwarded-Host") or self.headers.get("Host") or "mastercleaning.ca").split(",")[0].strip()
+        if host.startswith("localhost") or host.startswith("127.0.0.1"):
+            return "http://" + host
+        return "https://" + host
 
     def careers_page(self):
         conn = db.connect()
@@ -188,6 +212,21 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             conn.close()
 
+    def do_HEAD(self):
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/") or "/"
+        if path == "/api/articles-webhook":
+            body = b'{"ok":true}'
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
+        self.send_response(404)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
@@ -201,7 +240,12 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
         if path.startswith("/api/"):
-            limit = 40 * 1024 * 1024 if path.rstrip("/") == "/api/v1/quotes" else 12 * 1024 * 1024
+            if path == "/api/articles-webhook":
+                limit = 10 * 1024 * 1024
+            elif path == "/api/v1/quotes":
+                limit = 40 * 1024 * 1024
+            else:
+                limit = 12 * 1024 * 1024
             raw = self.read_body(limit)
             if raw is None:
                 self.send_json(413, {"error": "Upload is too large."})
@@ -224,6 +268,24 @@ class Handler(BaseHTTPRequestHandler):
         self.route_api("DELETE", parsed.path.rstrip("/") or "/", {}, None)
 
     def route_page(self, path):
+        if path == "/sitemap.xml":
+            body = articles.sitemap_xml(self.origin()).encode("utf-8")
+            self.send_bytes(200, body, "application/xml; charset=utf-8")
+            return
+        if path == "/blog":
+            self.send_html(articles.blog_index(self.origin()))
+            return
+        article_path = re.fullmatch(r"/blog/([^/]+)", path)
+        if article_path:
+            slug = article_path.group(1)
+            if slug.endswith(".html"):
+                slug = slug[:-5]
+            page = articles.blog_article(self.origin(), slug)
+            if page is None:
+                self.send_html(articles.not_found(self.origin()), 404)
+                return
+            self.send_html(page)
+            return
         if path in ("/careers", "/careers.html", "/jobs"):
             self.send_html(self.careers_page())
             return
@@ -270,6 +332,10 @@ class Handler(BaseHTTPRequestHandler):
         self.send_file(target)
 
     def route_api(self, method, path, query, raw):
+        if path == "/api/articles-webhook":
+            status, payload = articles.webhook(method, self.headers.get("X-API-Key"), raw)
+            self.send_json(status, payload)
+            return
         prefix = "/api/v1"
         if not path.startswith(prefix):
             self.send_json(404, {"error": "Not found"})

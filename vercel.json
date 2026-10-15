@@ -5,6 +5,10 @@
     }
   },
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/index" },
+    { "source": "/blog", "destination": "/api/index" },
+    { "source": "/blog/", "destination": "/api/index" },
+    { "source": "/blog/:slug", "destination": "/api/index" },
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/admin", "destination": "/recruitment/web/admin.html" },
     { "source": "/admin/(.*)", "destination": "/recruitment/web/admin.html" },

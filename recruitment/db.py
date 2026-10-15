@@ -290,7 +290,7 @@ def prepare_request():
 
 
 def finish_request(method):
-    if (method or "").upper() == "GET" or not os.environ.get("VERCEL"):
+    if (method or "").upper() in ("GET", "HEAD") or not os.environ.get("VERCEL"):
         return
     from recruitment import store
     store.save(DATA_DIR)
@@ -440,6 +440,28 @@ def migrate(conn):
             document_id INTEGER NOT NULL,
             admin_user_id INTEGER,
             expires_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS articles (
+            id INTEGER PRIMARY KEY,
+            external_id TEXT NOT NULL UNIQUE,
+            title TEXT,
+            slug TEXT UNIQUE,
+            content_html TEXT,
+            content_markdown TEXT,
+            meta_title TEXT,
+            meta_description TEXT,
+            subtitle TEXT,
+            category TEXT,
+            author_name TEXT,
+            image_url TEXT,
+            read_time TEXT,
+            word_count INTEGER,
+            tags JSON,
+            faqs JSON,
+            json_ld_schema JSON,
+            language_code TEXT,
+            published_at TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         """
     )
@@ -692,3 +714,126 @@ def record_view(conn, public_job_id):
     conn.execute("UPDATE jobs SET views = views + 1 WHERE id = ?", (row["id"],))
     conn.commit()
     return True
+
+
+def _json_text(value):
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    return json.dumps(value, ensure_ascii=False)
+
+
+def _json_value(value):
+    if value is None or value == "":
+        return None
+    if isinstance(value, (dict, list)):
+        return value
+    try:
+        return json.loads(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def article_dict(row):
+    if row is None:
+        return None
+    item = dict(row)
+    for key in ("tags", "faqs", "json_ld_schema"):
+        item[key] = _json_value(item.get(key))
+    return item
+
+
+def upsert_article(conn, row):
+    conn.execute(
+        """INSERT INTO articles (
+               external_id, title, slug, content_html, content_markdown, meta_title, meta_description,
+               subtitle, category, author_name, image_url, read_time, word_count, tags, faqs,
+               json_ld_schema, language_code, published_at, updated_at
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           ON CONFLICT(external_id) DO UPDATE SET
+               title = excluded.title,
+               slug = excluded.slug,
+               content_html = excluded.content_html,
+               content_markdown = excluded.content_markdown,
+               meta_title = excluded.meta_title,
+               meta_description = excluded.meta_description,
+               subtitle = excluded.subtitle,
+               category = excluded.category,
+               author_name = excluded.author_name,
+               image_url = excluded.image_url,
+               read_time = excluded.read_time,
+               word_count = excluded.word_count,
+               tags = excluded.tags,
+               faqs = excluded.faqs,
+               json_ld_schema = excluded.json_ld_schema,
+               language_code = excluded.language_code,
+               published_at = excluded.published_at,
+               updated_at = excluded.updated_at""",
+        (
+            row["external_id"],
+            row.get("title"),
+            row.get("slug"),
+            row.get("content_html"),
+            row.get("content_markdown"),
+            row.get("meta_title"),
+            row.get("meta_description"),
+            row.get("subtitle"),
+            row.get("category"),
+            row.get("author_name"),
+            row.get("image_url"),
+            row.get("read_time"),
+            row.get("word_count"),
+            _json_text(row.get("tags")),
+            _json_text(row.get("faqs")),
+            _json_text(row.get("json_ld_schema")),
+            row.get("language_code"),
+            row.get("published_at"),
+            row.get("updated_at") or now_iso(),
+        ),
+    )
+
+
+def publish_articles(items):
+    conn = connect()
+    try:
+        count = 0
+        for item in items:
+            if item:
+                upsert_article(conn, item)
+                count += 1
+        conn.commit()
+        return count
+    finally:
+        conn.close()
+
+
+def delete_article(external_id):
+    conn = connect()
+    try:
+        cur = conn.execute("DELETE FROM articles WHERE external_id = ?", (str(external_id),))
+        conn.commit()
+        return cur.rowcount
+    finally:
+        conn.close()
+
+
+def list_articles():
+    conn = connect()
+    try:
+        rows = conn.execute(
+            """SELECT * FROM articles
+               ORDER BY COALESCE(published_at, updated_at) DESC, id DESC"""
+        ).fetchall()
+        return [article_dict(row) for row in rows]
+    finally:
+        conn.close()
+
+
+def get_article_by_slug(slug):
+    conn = connect()
+    try:
+        row = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
+        return article_dict(row)
+    finally:
+        conn.close()
