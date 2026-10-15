@@ -318,13 +318,22 @@ def blog_index(origin):
             summary = escape(post.get("subtitle") or post.get("meta_description") or "")
             meta_bits = [bit for bit in (post.get("category"), post.get("read_time"), when) if bit]
             meta = escape(" · ".join(str(bit) for bit in meta_bits))
+            image = post.get("image_url")
+            if image:
+                media = '<a class="card-media" href="%s"><img src="%s" alt="%s"></a>' % (
+                    escape(path),
+                    escape(absolute_url(origin, image)),
+                    title,
+                )
+            else:
+                media = '<a class="card-media card-media-empty" href="%s"><img src="/images/logo.png" alt=""></a>' % escape(path)
             cards.append(
-                "<article><p class=\"meta\">%s</p><h2><a href=\"%s\">%s</a></h2><p>%s</p><a class=\"read\" href=\"%s\">Read article</a></article>"
-                % (meta, escape(path), title, summary, escape(path))
+                "<article>%s<div class=\"card-body\"><p class=\"meta\">%s</p><h2><a href=\"%s\">%s</a></h2><p>%s</p><a class=\"read\" href=\"%s\">Read article</a></div></article>"
+                % (media, meta, escape(path), title, summary, escape(path))
             )
         listing = "".join(cards)
     else:
-        listing = "<article><h2>No articles yet</h2><p>New posts will show up here.</p></article>"
+        listing = "<article class=\"empty-note\"><div class=\"card-body\"><h2>No articles yet</h2><p>New posts will show up here.</p></div></article>"
     main = """
   <section class="page-banner">
     <div class="wrap">
@@ -333,7 +342,7 @@ def blog_index(origin):
       <p>Notes on commercial cleaning for offices, retail, medical, and other facilities in Winnipeg, Selkirk, Oakbank, and Beausejour.</p>
     </div>
   </section>
-  <section class="blog-list"><div class="wrap">%s</div></section>
+  <section><div class="wrap blog-grid">%s</div></section>
 """ % listing
     return chrome(
         origin,
