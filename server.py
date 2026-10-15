@@ -258,6 +258,10 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(403, {"error": "Forbidden"})
             return
         if os.path.isdir(target):
+            index = os.path.join(target, "index.html")
+            if os.path.isfile(index):
+                self.send_file(index)
+                return
             self.send_json(404, {"error": "Not found"})
             return
         if not os.path.isfile(target):
