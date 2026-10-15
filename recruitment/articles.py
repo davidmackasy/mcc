@@ -180,6 +180,11 @@ def json_ld_tag(value):
     return '<script type="application/ld+json">%s</script>' % payload
 
 
+def content_has_faq(html):
+    text = (html or "").lower()
+    return "faqpage" in text or "frequently asked questions" in text
+
+
 def faq_html(faqs):
     if not isinstance(faqs, list) or not faqs:
         return ""
@@ -191,10 +196,10 @@ def faq_html(faqs):
         answer = item.get("answer") or item.get("a") or ""
         if not question and not answer:
             continue
-        blocks.append("<h3>%s</h3><p>%s</p>" % (escape(str(question)), escape(str(answer))))
+        blocks.append('<div class="faq-item"><h3>%s</h3><p>%s</p></div>' % (escape(str(question)), escape(str(answer))))
     if not blocks:
         return ""
-    return '<section class="post-body"><h2>Questions</h2>%s</section>' % "".join(blocks)
+    return '<section class="article-faq"><div class="wrap"><div class="article-faq-list"><h2>Questions</h2>%s</div></div></section>' % "".join(blocks)
 
 
 def chrome(origin, head_title, description, canonical, main, *, image=None, json_ld="", og_type="website", lang="en", robots=""):
@@ -382,7 +387,7 @@ def blog_article(origin, slug):
         (" · " + when) if when else "",
         ("<p>%s</p>" % escape(post.get("subtitle"))) if post.get("subtitle") else "",
         image + (post.get("content_html") or ""),
-        faq_html(post.get("faqs")),
+        "" if content_has_faq(post.get("content_html")) else faq_html(post.get("faqs")),
     )
     return chrome(
         origin,

@@ -176,8 +176,19 @@ p { margin: 0 0 1em; color: var(--slate); }
 .more-posts h2 a:hover { color: var(--teal-deep); }
 .read { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal-deep); }
 .post-body { max-width: 68ch; padding-bottom: 12px; }
-.post-body h2 { margin-top: 1.5em; }
+.post-body h2 { margin-top: 1.6em; line-height: 1.2; }
+.post-body h3 { margin-top: 1.25em; font-size: 1.2rem; line-height: 1.35; }
+.post-body p, .post-body li { line-height: 1.7; }
+.post-body ul, .post-body ol { margin: 0 0 1em; padding-left: 1.25em; }
+.post-body li { margin: 0.35em 0; }
+.post-body img { border-radius: 8px; margin: 1.25em 0; }
 .post-body a { color: var(--teal-deep); text-decoration: underline; }
+.article-faq { padding: 8px 0 64px; }
+.article-faq-list { max-width: 68ch; }
+.article-faq h2 { margin-bottom: 4px; }
+.article-faq .faq-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.article-faq h3 { font-size: 1.15rem; line-height: 1.35; margin: 0 0 8px; }
+.article-faq p { margin: 0; line-height: 1.7; }
 .more-posts { padding-bottom: 48px; }
 .more-posts h2 { font-size: 1.35rem; }
 
