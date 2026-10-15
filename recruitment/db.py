@@ -745,6 +745,11 @@ def article_dict(row):
 
 
 def upsert_article(conn, row):
+    slug = row.get("slug")
+    if slug:
+        existing = conn.execute("SELECT external_id FROM articles WHERE slug = ?", (slug,)).fetchone()
+        if existing and existing["external_id"] != row["external_id"]:
+            conn.execute("DELETE FROM articles WHERE slug = ?", (slug,))
     conn.execute(
         """INSERT INTO articles (
                external_id, title, slug, content_html, content_markdown, meta_title, meta_description,
