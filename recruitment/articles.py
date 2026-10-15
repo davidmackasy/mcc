@@ -83,31 +83,44 @@ def row_from_item(item):
     }
 
 
+WEBHOOK_PATHS = ("/api/articles-webhook", "/api/webhook")
+
+
+def articles_from_data(data):
+    if isinstance(data.get("articles"), list):
+        return data["articles"]
+    if data.get("id") or data.get("slug"):
+        return [data]
+    return []
+
+
 def webhook(method, api_key, raw):
-    if method in ("GET", "HEAD"):
+    if method in ("GET", "HEAD", "OPTIONS"):
         return 200, {"ok": True}
     if method != "POST":
-        return 405, {"error": "Method not allowed."}
+        return 405, {"ok": False, "error": "Method not allowed.", "message": "Send a POST request."}
     if not keys_match(api_key, os.environ.get("GRANDRANKER_SECRET")):
-        return 401, {"error": "Unauthorized"}
+        return 401, {"ok": False, "error": "Unauthorized", "message": "The API key was not accepted."}
     try:
         payload = json.loads((raw or b"").decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError):
-        return 400, {"error": "Invalid JSON."}
+        return 400, {"ok": False, "error": "Invalid JSON.", "message": "The body was not JSON."}
     if not isinstance(payload, dict):
-        return 400, {"error": "Invalid JSON."}
-    event = payload.get("event_type")
+        return 400, {"ok": False, "error": "Invalid JSON.", "message": "The body was not a JSON object."}
+    event = payload.get("event_type") or payload.get("event")
     data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
-    if event == "publish_articles":
-        items = data.get("articles") if isinstance(data.get("articles"), list) else []
-        rows = [row for row in (row_from_item(item) for item in items) if row]
+    if event in ("publish_articles", "update_article", "article_generated", "article.published", "article.updated", "article.generated"):
+        rows = [row for row in (row_from_item(item) for item in articles_from_data(data)) if row]
         return 200, {"ok": True, "upserted": db.publish_articles(rows)}
-    if event == "unpublish_article":
-        external_id = data.get("id")
-        if external_id is None or str(external_id).strip() == "":
-            return 400, {"error": "Missing article id."}
-        db.delete_article(external_id)
-        return 200, {"ok": True}
+    if event in ("unpublish_article", "delete_article", "article.deleted"):
+        removed = 0
+        for item in articles_from_data(data):
+            if not isinstance(item, dict):
+                continue
+            removed += db.delete_article(item.get("id"), item.get("slug"))
+        if removed == 0 and not data.get("id") and not data.get("slug"):
+            return 400, {"ok": False, "error": "Missing article id.", "message": "No article id was included."}
+        return 200, {"ok": True, "deleted": removed}
     return 200, {"ok": True}
 
 
@@ -174,7 +187,7 @@ def faq_html(faqs):
     for item in faqs:
         if not isinstance(item, dict):
             continue
-        question = item.get("question") or item.get("q") or ""
+        question = item.get("question") or item.get("name") or item.get("q") or ""
         answer = item.get("answer") or item.get("a") or ""
         if not question and not answer:
             continue

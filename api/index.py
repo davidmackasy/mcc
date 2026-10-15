@@ -48,6 +48,9 @@ class handler(Handler):
         getattr(super(), method_name)()
         db.finish_request(method_name.replace("do_", ""))
 
+    def do_OPTIONS(self):
+        self._run("do_OPTIONS")
+
     def do_HEAD(self):
         self._run("do_HEAD")
 

@@ -290,7 +290,7 @@ def prepare_request():
 
 
 def finish_request(method):
-    if (method or "").upper() in ("GET", "HEAD") or not os.environ.get("VERCEL"):
+    if (method or "").upper() in ("GET", "HEAD", "OPTIONS") or not os.environ.get("VERCEL"):
         return
     from recruitment import store
     store.save(DATA_DIR)
@@ -808,12 +808,18 @@ def publish_articles(items):
         conn.close()
 
 
-def delete_article(external_id):
+def delete_article(external_id=None, slug=None):
     conn = connect()
     try:
-        cur = conn.execute("DELETE FROM articles WHERE external_id = ?", (str(external_id),))
+        count = 0
+        if external_id is not None and str(external_id).strip() != "":
+            cur = conn.execute("DELETE FROM articles WHERE external_id = ?", (str(external_id),))
+            count += cur.rowcount
+        if slug:
+            cur = conn.execute("DELETE FROM articles WHERE slug = ?", (slug,))
+            count += cur.rowcount
         conn.commit()
-        return cur.rowcount
+        return count
     finally:
         conn.close()
 

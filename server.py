@@ -212,10 +212,27 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             conn.close()
 
+    def webhook_key(self):
+        direct = self.headers.get("X-API-Key") or ""
+        if direct:
+            return direct
+        auth = self.headers.get("Authorization") or ""
+        if auth.lower().startswith("bearer "):
+            return auth[7:].strip()
+        return ""
+
+    def do_OPTIONS(self):
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/") or "/"
+        if path in articles.WEBHOOK_PATHS:
+            self.send_json(200, {"ok": True}, [("Allow", "GET, HEAD, POST, OPTIONS")])
+            return
+        self.send_json(404, {"ok": False, "error": "Not found", "message": "That address is not a GrandRanker webhook."})
+
     def do_HEAD(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
-        if path == "/api/articles-webhook":
+        if path in articles.WEBHOOK_PATHS:
             body = b'{"ok":true}'
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -240,7 +257,7 @@ class Handler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
         if path.startswith("/api/"):
-            if path == "/api/articles-webhook":
+            if path in articles.WEBHOOK_PATHS:
                 limit = 10 * 1024 * 1024
             elif path == "/api/v1/quotes":
                 limit = 40 * 1024 * 1024
@@ -332,8 +349,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_file(target)
 
     def route_api(self, method, path, query, raw):
-        if path == "/api/articles-webhook":
-            status, payload = articles.webhook(method, self.headers.get("X-API-Key"), raw)
+        if path in articles.WEBHOOK_PATHS:
+            status, payload = articles.webhook(method, self.webhook_key(), raw)
             self.send_json(status, payload)
             return
         prefix = "/api/v1"
