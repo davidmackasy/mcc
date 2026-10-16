@@ -274,6 +274,7 @@ def init_db():
             conn.execute("INSERT INTO settings (key, value) VALUES (?, ?)", (key, value))
     migrate(conn)
     seed_open_job(conn)
+    seed_articles(conn)
     apply_env_settings(conn)
     conn.commit()
     conn.close()
@@ -314,6 +315,30 @@ def apply_env_settings(conn):
     password = (os.environ.get("SMTP_PASSWORD") or "").strip()
     if password:
         set_setting(conn, "smtp_password", password)
+
+
+def seed_articles(conn):
+    """Restore published posts after a fresh database. Live saves still need MCC_DATA_TOKEN."""
+    path = os.path.join(ROOT, "recruitment", "seed_articles.json")
+    if not os.path.isfile(path):
+        return
+    try:
+        with open(path, encoding="utf-8") as handle:
+            items = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return
+    if not isinstance(items, list):
+        return
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        slug = (item.get("slug") or "").strip()
+        external_id = item.get("external_id")
+        if not slug or external_id is None or str(external_id).strip() == "":
+            continue
+        if conn.execute("SELECT 1 FROM articles WHERE slug = ?", (slug,)).fetchone():
+            continue
+        upsert_article(conn, item)
 
 
 def seed_open_job(conn):
