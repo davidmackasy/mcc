@@ -111,7 +111,10 @@ def webhook(method, api_key, raw):
     data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
     if event in ("publish_articles", "update_article", "article_generated", "article.published", "article.updated", "article.generated"):
         rows = [row for row in (row_from_item(item) for item in articles_from_data(data)) if row]
-        return 200, {"ok": True, "upserted": db.publish_articles(rows)}
+        count = db.publish_articles(rows)
+        from recruitment import store
+        saved = store.save(db.DATA_DIR)
+        return 200, {"ok": True, "upserted": count, "saved": saved == "saved", "data_store": saved}
     if event in ("unpublish_article", "delete_article", "article.deleted"):
         removed = 0
         for item in articles_from_data(data):

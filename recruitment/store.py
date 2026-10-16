@@ -66,8 +66,10 @@ def load(data_dir):
 
 def save(data_dir):
     token = _token()
-    if not token or not os.path.isdir(data_dir):
-        return False
+    if not token:
+        return "missing"
+    if not os.path.isdir(data_dir):
+        return "no-data"
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for folder, _dirs, files in os.walk(data_dir):
@@ -86,11 +88,12 @@ def save(data_dir):
         payload["sha"] = json.loads(body.decode("utf-8")).get("sha")
     status, _body = _call("PUT", _contents_url(), payload)
     if status in (200, 201):
-        return True
+        return "saved"
     if status == 409:
         status, body = _call("GET", _contents_url())
         if status == 200:
             payload["sha"] = json.loads(body.decode("utf-8")).get("sha")
             status, _body = _call("PUT", _contents_url(), payload)
-            return status in (200, 201)
-    return False
+            if status in (200, 201):
+                return "saved"
+    return "github-%s" % status
