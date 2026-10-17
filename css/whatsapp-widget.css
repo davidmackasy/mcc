@@ -1,7 +1,7 @@
 /* WhatsApp click-to-chat widget ------------------------------------------*/
 .wa-fab {
   position: fixed;
-  bottom: 26px;
+  bottom: 104px;
   right: 26px;
   z-index: 90;
   width: 60px;

@@ -1,4 +1,13 @@
 // WhatsApp click-to-chat widget — Master Commercial Cleaning
+(function () {
+  if (document.getElementById("zsiqscript")) return;
+  var zoho = document.createElement("script");
+  zoho.id = "zsiqscript";
+  zoho.defer = true;
+  zoho.src = "https://salesiq.zohopublic.com/widget?wc=siq3b029d200719b4370510aefd589bdec30f827e00c97d13cb3ada97fabf888abac25590f3b9a9dd549e92b620a8057e06e9250a05f0cb84341a3c7411623e8ad170e1b0008154a903077e31309cd328c4";
+  document.head.appendChild(zoho);
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   var waFab = document.querySelector("#wa-fab");
   var waOverlay = document.querySelector("#wa-overlay");
