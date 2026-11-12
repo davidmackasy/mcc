@@ -276,7 +276,7 @@ def chrome(origin, head_title, description, canonical, main, *, image=None, json
       <div class="footer-col"><h4>Contact</h4><ul>
         <li><a href="tel:+12046981133">+1 (204) 698-1133</a></li>
         <li><a href="mailto:clean@mastercleaning.ca">clean@mastercleaning.ca</a></li>
-        <li><a href="https://maps.google.com/?q=Unit+7,+1599+Dugald+Rd,+Winnipeg,+MB">Unit 7, 1599 Dugald Rd, Winnipeg, MB</a></li>
+        <li><a href="https://maps.google.com/?q=Winnipeg,+Manitoba">Winnipeg, Manitoba</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom"><span>&copy; <span id="year">2026</span> Master Commercial Cleaning Services &amp; Building Maintenance Ltd. &middot; <a href="/privacy-policy.html">Privacy Policy</a></span></div>
