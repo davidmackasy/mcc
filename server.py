@@ -330,12 +330,27 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/":
             self.send_file(os.path.join(ROOT, "index.html"))
             return
+        if path.endswith(".html") and path != "/google92f39adc21c69253.html":
+            self.send_response(308)
+            location = "/" if path == "/index.html" else path[:-5]
+            query = urlparse(self.path).query
+            if query:
+                location += "?" + query
+            self.send_header("Location", location)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
         rel = path.lstrip("/")
         target = os.path.normpath(os.path.join(ROOT, rel))
         blocked = ("data", "recruitment", ".git")
         if not target.startswith(ROOT) or rel.split("/")[0] in blocked:
             self.send_json(403, {"error": "Forbidden"})
             return
+        if not os.path.splitext(rel)[1]:
+            html_file = target + ".html"
+            if os.path.isfile(html_file):
+                self.send_file(html_file)
+                return
         if os.path.isdir(target):
             index = os.path.join(target, "index.html")
             if os.path.isfile(index):

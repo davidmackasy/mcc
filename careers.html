@@ -6,11 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cleaning Jobs in Winnipeg | Master Commercial Cleaning</title>
 <meta name="description" content="Join the Master Commercial Cleaning team in Winnipeg and nearby communities. See open commercial cleaning jobs and apply online.">
-<link rel="canonical" href="https://mastercleaning.ca/careers.html">
+<link rel="canonical" href="https://mastercleaning.ca/careers">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cleaning Jobs in Winnipeg | Master Commercial Cleaning">
 <meta property="og:description" content="Join the Master Commercial Cleaning team in Winnipeg and nearby communities. See open commercial cleaning jobs and apply online.">
-<meta property="og:url" content="https://mastercleaning.ca/careers.html">
+<meta property="og:url" content="https://mastercleaning.ca/careers">
 <meta property="og:image" content="https://mastercleaning.ca/images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,12 +24,12 @@
     <nav class="main-nav">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="industries.html">Industries</a></li>
-        <li><a href="careers.html" aria-current="page">Careers</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/industries">Industries</a></li>
+        <li><a href="/careers" aria-current="page">Careers</a></li>
         <li><a href="blog/">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
       <a class="header-call" href="tel:+12046981133"><span>+1 (204) 698-1133</span></a>
       <button class="nav-toggle" aria-label="Toggle menu">Menu</button>
@@ -63,7 +63,7 @@
           <div class="meta"><span class="chip">Oakbank</span><span class="chip">Part-Time</span><span class="chip">8:00 PM – 12:00 AM</span><span class="chip">$18/hour</span></div>
           <p>Clean offices after hours.</p>
           <p class="help">Posted 2026-09-25</p>
-          <a class="btn" href="apply.html?job=JOB-1001">Apply</a>
+          <a class="btn" href="/apply?job=JOB-1001">Apply</a>
         </article>
       </div>
       <div class="panel ask-box">
@@ -92,7 +92,7 @@
     </div>
   </section>
 </main>
-<footer class="site-footer"><div class="wrap">Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="privacy-policy.html">Privacy Policy</a></div></footer>
+<footer class="site-footer"><div class="wrap">Master Commercial Cleaning Services &amp; Building Maintenance Ltd. · <a href="/privacy-policy">Privacy Policy</a></div></footer>
 <script>
 document.querySelector(".nav-toggle").addEventListener("click", function () {
   document.querySelector(".site-header").classList.toggle("nav-open");
@@ -115,7 +115,7 @@ function load() {
     }
     jobsEl.innerHTML = jobs.map(function (job) {
       return '<article class="job-card" id="' + escapeHtml(job.job_id) + '"><h2>' + escapeHtml(job.title) + '</h2><div class="meta">' +
-        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="apply.html?job=' + encodeURIComponent(job.job_id) + '">Apply</a></article>';
+        chip(job.location) + chip(job.employment_type_label) + chip(job.shift) + chip(job.pay) + '</div><p>' + escapeHtml(job.summary || "") + '</p><p class="help">Posted ' + escapeHtml(job.posted_at || "") + '</p><a class="btn" href="/apply?job=' + encodeURIComponent(job.job_id) + '">Apply</a></article>';
     }).join("");
   }).catch(function () {});
 }

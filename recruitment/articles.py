@@ -12,20 +12,20 @@ from recruitment import db
 
 STATIC_PATHS = (
     "/",
-    "/services.html",
-    "/janitorial-cleaning.html",
-    "/carpet-upholstery-cleaning.html",
-    "/floor-care.html",
-    "/window-cleaning.html",
-    "/post-construction-cleaning.html",
-    "/pressure-washing.html",
-    "/medical-dental-cleaning.html",
-    "/drive-thru-exterior-detailing.html",
-    "/industries.html",
-    "/about.html",
-    "/contact.html",
-    "/careers.html",
-    "/privacy-policy.html",
+    "/services",
+    "/janitorial-cleaning",
+    "/carpet-upholstery-cleaning",
+    "/floor-care",
+    "/window-cleaning",
+    "/post-construction-cleaning",
+    "/pressure-washing",
+    "/medical-dental-cleaning",
+    "/drive-thru-exterior-detailing",
+    "/industries",
+    "/about",
+    "/contact",
+    "/careers",
+    "/privacy-policy",
 )
 
 
@@ -237,12 +237,12 @@ def chrome(origin, head_title, description, canonical, main, *, image=None, json
     <nav class="main-nav">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/services.html">Services</a></li>
-        <li><a href="/industries.html">Industries</a></li>
-        <li><a href="/careers.html">Careers</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/industries">Industries</a></li>
+        <li><a href="/careers">Careers</a></li>
         <li><a href="/blog" aria-current="page">Blog</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul>
       <a class="header-call" href="tel:+12046981133"><span class="txt">+1 (204) 698-1133</span></a>
       <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
@@ -256,7 +256,7 @@ def chrome(origin, head_title, description, canonical, main, *, image=None, json
       <h2>Take back your time. Leave the cleaning to us.</h2>
       <span class="phone-big">+1 (204) 698-1133</span>
       <div class="actions">
-        <a href="/contact.html" class="btn btn-primary">Request a free estimate</a>
+        <a href="/contact" class="btn btn-primary">Request a free estimate</a>
         <a href="mailto:clean@mastercleaning.ca" class="btn btn-on-dark">Email clean@mastercleaning.ca</a>
       </div>
     </div>
@@ -271,10 +271,10 @@ def chrome(origin, head_title, description, canonical, main, *, image=None, json
       </div>
       <div class="footer-col"><h4>Site</h4><ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/services.html">Services</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
         <li><a href="/blog">Blog</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/contact">Contact</a></li>
       </ul></div>
       <div class="footer-col"><h4>Contact</h4><ul>
         <li><a href="tel:+12046981133">+1 (204) 698-1133</a></li>
@@ -282,7 +282,7 @@ def chrome(origin, head_title, description, canonical, main, *, image=None, json
         <li><a href="https://maps.google.com/?q=Winnipeg,+Manitoba">Winnipeg, Manitoba</a></li>
       </ul></div>
     </div>
-    <div class="footer-bottom"><span>&copy; <span id="year">2026</span> Master Commercial Cleaning Services &amp; Building Maintenance Ltd. &middot; <a href="/privacy-policy.html">Privacy Policy</a></span></div>
+    <div class="footer-bottom"><span>&copy; <span id="year">2026</span> Master Commercial Cleaning Services &amp; Building Maintenance Ltd. &middot; <a href="/privacy-policy">Privacy Policy</a></span></div>
   </div>
 </footer>
 <script>
