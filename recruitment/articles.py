@@ -109,12 +109,7 @@ def webhook(method, api_key, raw):
         return 400, {"ok": False, "error": "Invalid JSON.", "message": "The body was not a JSON object."}
     event = payload.get("event_type") or payload.get("event")
     data = payload.get("data") if isinstance(payload.get("data"), dict) else {}
-    if event in ("publish_articles", "update_article", "article_generated", "article.published", "article.updated", "article.generated"):
-        rows = [row for row in (row_from_item(item) for item in articles_from_data(data)) if row]
-        count = db.publish_articles(rows)
-        from recruitment import store
-        saved = store.save(db.DATA_DIR)
-        return 200, {"ok": True, "upserted": count, "saved": saved == "saved", "data_store": saved}
+    incoming = articles_from_data(data)
     if event in ("unpublish_article", "delete_article", "article.deleted"):
         removed = 0
         for item in articles_from_data(data):
@@ -124,6 +119,12 @@ def webhook(method, api_key, raw):
         if removed == 0 and not data.get("id") and not data.get("slug"):
             return 400, {"ok": False, "error": "Missing article id.", "message": "No article id was included."}
         return 200, {"ok": True, "deleted": removed}
+    rows = [row for row in (row_from_item(item) for item in incoming) if row]
+    if rows:
+        count = db.publish_articles(rows)
+        from recruitment import store
+        saved = store.save(db.DATA_DIR)
+        return 200, {"ok": True, "upserted": count, "saved": saved == "saved", "data_store": saved}
     return 200, {"ok": True}
 
 

@@ -854,14 +854,36 @@ def delete_article(external_id=None, slug=None):
         conn.close()
 
 
+def article_time(value):
+    """Turn GrandRanker's 'November 13, 2026' and ISO timestamps into one comparable time."""
+    if not value:
+        return datetime.min
+    text = str(value).strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(text)
+        return parsed.replace(tzinfo=None)
+    except ValueError:
+        pass
+    for fmt in ("%B %d, %Y", "%b %d, %Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(text, fmt)
+        except ValueError:
+            continue
+    return datetime.min
+
+
 def list_articles():
     conn = connect()
     try:
-        rows = conn.execute(
-            """SELECT * FROM articles
-               ORDER BY COALESCE(published_at, updated_at) DESC, id DESC"""
-        ).fetchall()
-        return [article_dict(row) for row in rows]
+        rows = conn.execute("SELECT * FROM articles").fetchall()
+        items = [article_dict(row) for row in rows]
+        items.sort(
+            key=lambda item: (article_time(item.get("published_at") or item.get("updated_at")), item.get("id") or 0),
+            reverse=True,
+        )
+        return items
     finally:
         conn.close()
 
